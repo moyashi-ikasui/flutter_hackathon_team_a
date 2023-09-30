@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hackathon_team_a/constants/const.dart';
 import 'package:flutter_hackathon_team_a/features/game_end_type.dart';
 import 'package:flutter_hackathon_team_a/features/game_state.dart';
-import 'package:flutter_hackathon_team_a/pages/game/widgets/game_end_dialog.dart';
+import 'package:flutter_hackathon_team_a/pages/game/widgets/game_end_dialog/game_end_dialog.dart';
+import 'package:flutter_hackathon_team_a/main.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:collection/collection.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
@@ -30,6 +31,7 @@ class Game extends AutoDisposeNotifier<GameState> {
         Audio("assets/sounds/bgm.mp3"),
         autoStart: false,
         showNotification: true,
+        loopMode: LoopMode.single,
       ),
     ]);
   }
@@ -72,10 +74,17 @@ class Game extends AutoDisposeNotifier<GameState> {
 
   void startTimer() {
     state.animationController!.forward();
+    state.animationController!.addListener(() {
+      if (!state.isAngry && state.animationController!.value > 0.8) {
+        state = state.copyWith(isAngry: true);
+      }
+      listenRemainingTime(state.animationController!.value);
+    });
     state.animationController!.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         showDialog(
           context: state.context!,
+          barrierDismissible: false,
           builder: (context) {
             return const GameEndDialog(
               gameEndType: GameEndType.timeUp,
@@ -100,6 +109,46 @@ class Game extends AutoDisposeNotifier<GameState> {
 
   void updateLevelType(LevelType value) {
     state = state.copyWith(levelType: value);
+    // diffPointsの値を変える
+    if (value == LevelType.easy) {
+      state = state.copyWith(
+          diffPoints: Map.from({
+        const TapPoint(
+            offset: Offset(120, 15),
+            verticalSide: 30,
+            horizontalSide: 15): false,
+        const TapPoint(
+            offset: Offset(120, 50),
+            verticalSide: 30,
+            horizontalSide: 15): false,
+        const TapPoint(
+            offset: Offset(120, 110),
+            verticalSide: 30,
+            horizontalSide: 20): false,
+      }));
+    }
+    if (value == LevelType.hard) {
+      state = state.copyWith(
+        diffPoints: Map.from({
+          const TapPoint(
+              offset: Offset(140, 40),
+              verticalSide: 35,
+              horizontalSide: 10): false,
+          const TapPoint(
+              offset: Offset(120, 64),
+              verticalSide: 35,
+              horizontalSide: 10): false,
+          const TapPoint(
+              offset: Offset(140, 90),
+              verticalSide: 10,
+              horizontalSide: 15): false,
+          const TapPoint(
+              offset: Offset(105, 95),
+              verticalSide: 15,
+              horizontalSide: 10): false,
+        }),
+      );
+    }
   }
 
   void finishGame() {
@@ -118,6 +167,26 @@ class Game extends AutoDisposeNotifier<GameState> {
 
   @override
   GameState build() {
+    diffImage().then((value) {
+      for (var element in value) {
+        element.x;
+        element.y;
+        state = state.copyWith(
+          diffPoints: Map.fromEntries(
+            state.diffPoints.entries.map((e) {
+              return MapEntry(
+                TapPoint(
+                  offset: Offset(element.x.toDouble(), element.y.toDouble()),
+                  verticalSide: 10,
+                  horizontalSide: 10,
+                ),
+                false,
+              );
+            }),
+          ),
+        );
+      }
+    });
     setupPlayer().then((value) {
       bgmPlayer.play();
     });
@@ -129,11 +198,7 @@ class Game extends AutoDisposeNotifier<GameState> {
     });
 
     return GameState(
-      diffPoints: Map.from({
-        const TapPoint(offset: Offset(50, 25), radius: 10): false,
-        const TapPoint(offset: Offset(100, 25), radius: 10): false,
-        const TapPoint(offset: Offset(150, 80), radius: 10): false,
-      }),
+      diffPoints: Map.from({}),
       wrongTouchingNum: 0,
       result: const Result(
         remainingTime: 1,
@@ -142,6 +207,7 @@ class Game extends AutoDisposeNotifier<GameState> {
         issuesNum: 0,
         wrongTouchingNum: 0,
       ),
+      isAngry: false,
     );
   }
 }

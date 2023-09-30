@@ -12,6 +12,7 @@ class GameState with _$GameState {
     required int wrongTouchingNum,
     required Result result,
     BuildContext? context,
+    required bool isAngry,
   }) = _GameState;
   const GameState._();
 }
@@ -47,17 +48,19 @@ extension LevelTypeExt on LevelType {
 
 class TapPoint {
   final Offset offset;
-  final double radius;
+  final double verticalSide;
+  final double horizontalSide;
 
   const TapPoint({
     required this.offset,
-    required this.radius,
+    required this.verticalSide,
+    required this.horizontalSide,
   });
 
-  double get minX => offset.dx - radius;
-  double get maxX => offset.dx + radius;
-  double get maxY => offset.dy + radius;
-  double get minY => offset.dy - radius;
+  double get minX => offset.dx - verticalSide;
+  double get maxX => offset.dx + verticalSide;
+  double get maxY => offset.dy + horizontalSide;
+  double get minY => offset.dy - horizontalSide;
 
   bool isTap(Offset tapPoint) {
     return minX < tapPoint.dx &&

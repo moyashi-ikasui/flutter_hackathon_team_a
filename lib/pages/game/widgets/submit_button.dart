@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hackathon_team_a/features/game_end_type.dart';
-import 'package:flutter_hackathon_team_a/pages/game/widgets/game_end_dialog.dart';
+import 'package:flutter_hackathon_team_a/pages/game/widgets/game_end_dialog/game_end_dialog.dart';
 
 class SubmitButton extends StatelessWidget {
   const SubmitButton({super.key});
@@ -24,9 +24,9 @@ class SubmitButton extends StatelessWidget {
         );
       },
       child: const Text(
-        'これで全てだと思う！',
+        '全部見つけたと思う！',
         style: TextStyle(
-          fontSize: 28,
+          fontSize: 20,
           color: Colors.white,
           fontWeight: FontWeight.bold,
         ),
