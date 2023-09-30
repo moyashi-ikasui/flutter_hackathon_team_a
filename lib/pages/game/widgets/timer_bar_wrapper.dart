@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_hackathon_team_a/pages/game/feature/game.dart';
-import 'package:flutter_hackathon_team_a/pages/game/feature/game_state.dart';
+import 'package:flutter_hackathon_team_a/features/game.dart';
+import 'package:flutter_hackathon_team_a/features/game_state.dart';
 import 'package:flutter_hackathon_team_a/pages/game/widgets/animated_timer_bar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

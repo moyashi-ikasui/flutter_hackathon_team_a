@@ -8,12 +8,29 @@ class GameState with _$GameState {
   const factory GameState({
     required Map<TapPoint, bool> diffPoints,
     AnimationController? animationController,
+    LevelType? levelType,
   }) = _GameState;
   const GameState._();
 }
 
 extension GameStateEx on GameState {
   bool get isAnimationControllerInitialized => animationController != null;
+}
+
+enum LevelType {
+  easy,
+  hard,
+}
+
+extension LevelTypeExt on LevelType {
+  String get name {
+    switch (this) {
+      case LevelType.easy:
+        return 'やさしい';
+      case LevelType.hard:
+        return '難しい';
+    }
+  }
 }
 
 class TapPoint {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hackathon_team_a/pages/game/feature/game.dart';
+import 'package:flutter_hackathon_team_a/features/game.dart';
 import 'package:flutter_hackathon_team_a/pages/game/widgets/timer_bar_wrapper.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

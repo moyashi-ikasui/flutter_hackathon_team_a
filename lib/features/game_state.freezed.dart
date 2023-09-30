@@ -19,6 +19,7 @@ mixin _$GameState {
   Map<TapPoint, bool> get diffPoints => throw _privateConstructorUsedError;
   AnimationController? get animationController =>
       throw _privateConstructorUsedError;
+  LevelType? get levelType => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $GameStateCopyWith<GameState> get copyWith =>
@@ -32,7 +33,8 @@ abstract class $GameStateCopyWith<$Res> {
   @useResult
   $Res call(
       {Map<TapPoint, bool> diffPoints,
-      AnimationController? animationController});
+      AnimationController? animationController,
+      LevelType? levelType});
 }
 
 /// @nodoc
@@ -50,6 +52,7 @@ class _$GameStateCopyWithImpl<$Res, $Val extends GameState>
   $Res call({
     Object? diffPoints = null,
     Object? animationController = freezed,
+    Object? levelType = freezed,
   }) {
     return _then(_value.copyWith(
       diffPoints: null == diffPoints
@@ -60,6 +63,10 @@ class _$GameStateCopyWithImpl<$Res, $Val extends GameState>
           ? _value.animationController
           : animationController // ignore: cast_nullable_to_non_nullable
               as AnimationController?,
+      levelType: freezed == levelType
+          ? _value.levelType
+          : levelType // ignore: cast_nullable_to_non_nullable
+              as LevelType?,
     ) as $Val);
   }
 }
@@ -73,7 +80,8 @@ abstract class _$$_GameStateCopyWith<$Res> implements $GameStateCopyWith<$Res> {
   @useResult
   $Res call(
       {Map<TapPoint, bool> diffPoints,
-      AnimationController? animationController});
+      AnimationController? animationController,
+      LevelType? levelType});
 }
 
 /// @nodoc
@@ -89,6 +97,7 @@ class __$$_GameStateCopyWithImpl<$Res>
   $Res call({
     Object? diffPoints = null,
     Object? animationController = freezed,
+    Object? levelType = freezed,
   }) {
     return _then(_$_GameState(
       diffPoints: null == diffPoints
@@ -99,6 +108,10 @@ class __$$_GameStateCopyWithImpl<$Res>
           ? _value.animationController
           : animationController // ignore: cast_nullable_to_non_nullable
               as AnimationController?,
+      levelType: freezed == levelType
+          ? _value.levelType
+          : levelType // ignore: cast_nullable_to_non_nullable
+              as LevelType?,
     ));
   }
 }
@@ -107,7 +120,9 @@ class __$$_GameStateCopyWithImpl<$Res>
 
 class _$_GameState extends _GameState {
   const _$_GameState(
-      {required final Map<TapPoint, bool> diffPoints, this.animationController})
+      {required final Map<TapPoint, bool> diffPoints,
+      this.animationController,
+      this.levelType})
       : _diffPoints = diffPoints,
         super._();
 
@@ -121,10 +136,12 @@ class _$_GameState extends _GameState {
 
   @override
   final AnimationController? animationController;
+  @override
+  final LevelType? levelType;
 
   @override
   String toString() {
-    return 'GameState(diffPoints: $diffPoints, animationController: $animationController)';
+    return 'GameState(diffPoints: $diffPoints, animationController: $animationController, levelType: $levelType)';
   }
 
   @override
@@ -135,12 +152,17 @@ class _$_GameState extends _GameState {
             const DeepCollectionEquality()
                 .equals(other._diffPoints, _diffPoints) &&
             (identical(other.animationController, animationController) ||
-                other.animationController == animationController));
+                other.animationController == animationController) &&
+            (identical(other.levelType, levelType) ||
+                other.levelType == levelType));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_diffPoints), animationController);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_diffPoints),
+      animationController,
+      levelType);
 
   @JsonKey(ignore: true)
   @override
@@ -152,13 +174,16 @@ class _$_GameState extends _GameState {
 abstract class _GameState extends GameState {
   const factory _GameState(
       {required final Map<TapPoint, bool> diffPoints,
-      final AnimationController? animationController}) = _$_GameState;
+      final AnimationController? animationController,
+      final LevelType? levelType}) = _$_GameState;
   const _GameState._() : super._();
 
   @override
   Map<TapPoint, bool> get diffPoints;
   @override
   AnimationController? get animationController;
+  @override
+  LevelType? get levelType;
   @override
   @JsonKey(ignore: true)
   _$$_GameStateCopyWith<_$_GameState> get copyWith =>
