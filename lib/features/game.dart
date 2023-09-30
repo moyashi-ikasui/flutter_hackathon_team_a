@@ -3,22 +3,29 @@ import 'package:flutter_hackathon_team_a/constants/const.dart';
 import 'package:flutter_hackathon_team_a/features/game_state.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:collection/collection.dart';
+import 'package:just_audio/just_audio.dart';
 
 class Game extends AutoDisposeNotifier<GameState> {
   Game();
 
   void tapPoint(Offset offset) {
+    // final wrongAnswerPlayer = AudioPlayer()
+    //   ..setAsset("assets/sounds/wrong_answer.mp3");
+    // final correctAnswerPlayer = AudioPlayer()
+    //   ..setAsset("assets/sounds/correct_answer.mp3");
     final newMap = Map<TapPoint, bool>.from(state.diffPoints);
 
     final tappedPoint = state.diffPoints.entries
         .firstWhereOrNull((element) => element.key.isTap(offset));
 
     // タップしたポイントが存在しない場合
-    if (tappedPoint != null) {
+    if (tappedPoint == null) {
+      // wrongAnswerPlayer.play();
       reduceTimer();
       state = state.copyWith(wrongTouchingNum: state.wrongTouchingNum + 1);
     } else {
-      newMap[tappedPoint!.key] = true;
+      // correctAnswerPlayer.play();
+      newMap[tappedPoint.key] = true;
       state = state.copyWith(diffPoints: newMap);
     }
   }
