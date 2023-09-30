@@ -1,0 +1,93 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_hackathon_team_a/constants/const.dart';
+import 'package:flutter_hackathon_team_a/features/game_state.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:collection/collection.dart';
+
+class Game extends AutoDisposeNotifier<GameState> {
+  Game();
+
+  void tapPoint(Offset offset) {
+    final newMap = Map<TapPoint, bool>.from(state.diffPoints);
+
+    final tappedPoint = state.diffPoints.entries
+        .firstWhereOrNull((element) => element.key.isTap(offset));
+
+    // タップしたポイントが存在しない場合
+    if (tappedPoint != null) {
+      reduceTimer();
+      state = state.copyWith(wrongTouchingNum: state.wrongTouchingNum + 1);
+    } else {
+      newMap[tappedPoint!.key] = true;
+      state = state.copyWith(diffPoints: newMap);
+    }
+  }
+
+  void initializeAnimationController(TickerProvider tickerProvider) {
+    state = state.copyWith(
+      animationController: AnimationController(
+        vsync: tickerProvider,
+        duration: const Duration(seconds: gameTimeSec),
+      ),
+    );
+    startTimer();
+  }
+
+  void startTimer() {
+    state.animationController!.forward();
+    state.animationController!.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        // タイムアップ後の処理を追加
+      }
+    });
+  }
+
+  void stopTimer() {
+    state.animationController!.stop();
+  }
+
+  void reduceTimer() {
+    final newValue =
+        state.animationController!.value + (timeReduceSec / gameTimeSec);
+    final isNewValueNegative = newValue > 1;
+    final fixedNewValue = isNewValueNegative ? 1.0 : newValue;
+    state.animationController!.forward(from: fixedNewValue);
+  }
+
+  void updateLevelType(LevelType value) {
+    state = state.copyWith(levelType: value);
+  }
+
+  void finishGame() {
+    state = state.copyWith(
+      result: Result(
+        remainingTime: (state.animationController!.value * gameTimeSec).toInt(),
+        level: LevelType.easy, // TODO,
+        correctAnswersNum:
+            state.diffPoints.values.where((element) => element).toList().length,
+        issuesNum: state.diffPoints.values.length,
+        wrongTouchingNum: state.wrongTouchingNum,
+      ),
+    );
+  }
+
+  @override
+  GameState build() {
+    return GameState(
+        diffPoints: Map.from({
+          const TapPoint(offset: Offset(50, 25), radius: 10): false,
+          const TapPoint(offset: Offset(100, 25), radius: 10): false,
+          const TapPoint(offset: Offset(150, 80), radius: 10): false,
+        }),
+        wrongTouchingNum: 0,
+        result: const Result(
+          remainingTime: 1,
+          level: LevelType.easy,
+          correctAnswersNum: 0,
+          issuesNum: 0,
+          wrongTouchingNum: 0,
+        ));
+  }
+}
+
+final gameProvider = NotifierProvider.autoDispose<Game, GameState>(Game.new);
