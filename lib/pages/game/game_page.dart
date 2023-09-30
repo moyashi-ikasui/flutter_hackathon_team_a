@@ -51,12 +51,13 @@ class GamePage extends HookConsumerWidget {
                               child: Container(
                                 width: 25,
                                 height: 25,
+                                alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(100),
                                   border: Border.all(
                                       color: state.diffPoints[e.key]!
                                           ? Colors.red
-                                          : Colors.transparent,
+                                          : Color.fromARGB(255, 84, 42, 251),
                                       width: 5),
                                 ),
                               ),
