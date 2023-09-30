@@ -79,9 +79,9 @@ class Game extends AutoDisposeNotifier<GameState> {
     if (value == LevelType.easy) {
       state = state.copyWith(
           diffPoints: Map.from({
-        const TapPoint(offset: Offset(85, 10), verticalSide: 30, horizontalSide: 15): false,
-        const TapPoint(offset: Offset(95, 40), verticalSide: 30, horizontalSide: 15): false,
-        const TapPoint(offset: Offset(90, 90), verticalSide: 15, horizontalSide: 20): false,
+        const TapPoint(offset: Offset(120, 15), verticalSide: 30, horizontalSide: 15): false,
+        const TapPoint(offset: Offset(120, 50), verticalSide: 30, horizontalSide: 15): false,
+        const TapPoint(offset: Offset(120, 110), verticalSide: 30, horizontalSide: 20): false,
       }));
     }
     if (value == LevelType.hard) {
