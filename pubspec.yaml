@@ -43,7 +43,7 @@ dependencies:
   shared_preferences: ^2.2.1
   collection: ^1.17.0
   intl: ^0.18.1
-  just_audio: ^0.9.35
+  assets_audio_player: ^3.1.1
 
 dev_dependencies:
   flutter_test:
@@ -71,6 +71,7 @@ flutter:
 
   assets:
     - assets/
+    - assets/sounds/
 
 
   # To add assets to your application, add an assets section, like this:

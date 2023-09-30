@@ -5,16 +5,42 @@ import 'package:flutter_hackathon_team_a/features/game_state.dart';
 import 'package:flutter_hackathon_team_a/pages/game/widgets/game_end_dialog.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:collection/collection.dart';
-import 'package:just_audio/just_audio.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 
 class Game extends AutoDisposeNotifier<GameState> {
   Game();
 
+  final wrongAnswerPlayer = AssetsAudioPlayer();
+  final correctAnswerPlayer = AssetsAudioPlayer();
+  final bgmPlayer = AssetsAudioPlayer();
+
+  Future<void> setupPlayer() {
+    return Future.wait([
+      wrongAnswerPlayer.open(
+        Audio("assets/sounds/wrong_answer.mp3"),
+        autoStart: false,
+        showNotification: true,
+      ),
+      correctAnswerPlayer.open(
+        Audio("assets/sounds/correct_answer.mp3"),
+        autoStart: false,
+        showNotification: true,
+      ),
+      bgmPlayer.open(
+        Audio("assets/sounds/bgm.mp3"),
+        autoStart: false,
+        showNotification: true,
+      ),
+    ]);
+  }
+
+  void listenRemainingTime(double value) {
+    if (0.5 < value && bgmPlayer.playSpeed.value == 1) {
+      bgmPlayer.setPlaySpeed(1.5);
+    }
+  }
+
   void tapPoint(Offset offset) {
-    // final wrongAnswerPlayer = AudioPlayer()
-    //   ..setAsset("assets/sounds/wrong_answer.mp3");
-    // final correctAnswerPlayer = AudioPlayer()
-    //   ..setAsset("assets/sounds/correct_answer.mp3");
     final newMap = Map<TapPoint, bool>.from(state.diffPoints);
 
     final tappedPoint = state.diffPoints.entries
@@ -22,11 +48,10 @@ class Game extends AutoDisposeNotifier<GameState> {
 
     // タップしたポイントが存在しない場合
     if (tappedPoint == null) {
-      // wrongAnswerPlayer.play();
-      reduceTimer();
+      wrongAnswerPlayer.play();
       state = state.copyWith(wrongTouchingNum: state.wrongTouchingNum + 1);
     } else {
-      // correctAnswerPlayer.play();
+      correctAnswerPlayer.play();
       newMap[tappedPoint.key] = true;
       state = state.copyWith(diffPoints: newMap);
     }
@@ -78,6 +103,7 @@ class Game extends AutoDisposeNotifier<GameState> {
   }
 
   void finishGame() {
+    bgmPlayer.stop();
     state = state.copyWith(
       result: Result(
         remainingTime: (state.animationController!.value * gameTimeSec).toInt(),
@@ -92,6 +118,16 @@ class Game extends AutoDisposeNotifier<GameState> {
 
   @override
   GameState build() {
+    setupPlayer().then((value) {
+      bgmPlayer.play();
+    });
+
+    ref.onDispose(() {
+      bgmPlayer.dispose();
+      wrongAnswerPlayer.dispose();
+      correctAnswerPlayer.dispose();
+    });
+
     return GameState(
       diffPoints: Map.from({
         const TapPoint(offset: Offset(50, 25), radius: 10): false,
