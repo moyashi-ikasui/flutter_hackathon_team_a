@@ -30,6 +30,7 @@ class Game extends AutoDisposeNotifier<GameState> {
         Audio("assets/sounds/bgm.mp3"),
         autoStart: false,
         showNotification: true,
+        loopMode: LoopMode.single,
       ),
     ]);
   }
@@ -76,6 +77,7 @@ class Game extends AutoDisposeNotifier<GameState> {
       if (!state.isAngry && state.animationController!.value > 0.8) {
         state = state.copyWith(isAngry: true);
       }
+      listenRemainingTime(state.animationController!.value);
     });
     state.animationController!.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
@@ -110,18 +112,39 @@ class Game extends AutoDisposeNotifier<GameState> {
     if (value == LevelType.easy) {
       state = state.copyWith(
           diffPoints: Map.from({
-        const TapPoint(offset: Offset(120, 15), verticalSide: 30, horizontalSide: 15): false,
-        const TapPoint(offset: Offset(120, 50), verticalSide: 30, horizontalSide: 15): false,
-        const TapPoint(offset: Offset(120, 110), verticalSide: 30, horizontalSide: 20): false,
+        const TapPoint(
+            offset: Offset(120, 15),
+            verticalSide: 30,
+            horizontalSide: 15): false,
+        const TapPoint(
+            offset: Offset(120, 50),
+            verticalSide: 30,
+            horizontalSide: 15): false,
+        const TapPoint(
+            offset: Offset(120, 110),
+            verticalSide: 30,
+            horizontalSide: 20): false,
       }));
     }
     if (value == LevelType.hard) {
       state = state.copyWith(
         diffPoints: Map.from({
-          const TapPoint(offset: Offset(140, 40), verticalSide: 35, horizontalSide: 10): false,
-          const TapPoint(offset: Offset(120, 64), verticalSide: 35, horizontalSide: 10): false,
-          const TapPoint(offset: Offset(140, 90), verticalSide: 10, horizontalSide: 15): false,
-          const TapPoint(offset: Offset(105, 95), verticalSide: 15, horizontalSide: 10): false,
+          const TapPoint(
+              offset: Offset(140, 40),
+              verticalSide: 35,
+              horizontalSide: 10): false,
+          const TapPoint(
+              offset: Offset(120, 64),
+              verticalSide: 35,
+              horizontalSide: 10): false,
+          const TapPoint(
+              offset: Offset(140, 90),
+              verticalSide: 10,
+              horizontalSide: 15): false,
+          const TapPoint(
+              offset: Offset(105, 95),
+              verticalSide: 15,
+              horizontalSide: 10): false,
         }),
       );
     }
