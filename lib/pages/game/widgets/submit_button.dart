@@ -24,9 +24,9 @@ class SubmitButton extends StatelessWidget {
         );
       },
       child: const Text(
-        'これで全てだと思う！',
+        '全部見つけたと思う！',
         style: TextStyle(
-          fontSize: 28,
+          fontSize: 20,
           color: Colors.white,
           fontWeight: FontWeight.bold,
         ),

@@ -12,6 +12,7 @@ class GameState with _$GameState {
     required int wrongTouchingNum,
     required Result result,
     BuildContext? context,
+    required bool isAngry,
   }) = _GameState;
   const GameState._();
 }
