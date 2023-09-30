@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hackathon_team_a/features/game.dart';
 import 'package:flutter_hackathon_team_a/features/game_state.dart';
+import 'package:flutter_hackathon_team_a/pages/game/widgets/submit_button.dart';
 import 'package:flutter_hackathon_team_a/pages/game/widgets/background.dart';
 import 'package:flutter_hackathon_team_a/pages/game/widgets/timer_bar_wrapper.dart';
+import 'package:flutter_hackathon_team_a/util/spacer.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -75,6 +77,9 @@ class GamePage extends HookConsumerWidget {
                 ),
               ],
             ),
+            const HSpacer(height: 12),
+            const SubmitButton(),
+            const HSpacer(height: 12),
             const TimerBarWrapper(),
           ],
         ),

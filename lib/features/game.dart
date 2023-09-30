@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hackathon_team_a/constants/const.dart';
+import 'package:flutter_hackathon_team_a/features/game_end_type.dart';
 import 'package:flutter_hackathon_team_a/features/game_state.dart';
+import 'package:flutter_hackathon_team_a/pages/game/widgets/game_end_dialog.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:collection/collection.dart';
 import 'package:just_audio/just_audio.dart';
@@ -30,13 +32,16 @@ class Game extends AutoDisposeNotifier<GameState> {
     }
   }
 
-  void initializeAnimationController(TickerProvider tickerProvider) {
+  void initializeAnimationController(
+    TickerProvider tickerProvider,
+    BuildContext context,
+  ) {
     state = state.copyWith(
-      animationController: AnimationController(
-        vsync: tickerProvider,
-        duration: const Duration(seconds: gameTimeSec),
-      ),
-    );
+        animationController: AnimationController(
+          vsync: tickerProvider,
+          duration: const Duration(seconds: gameTimeSec),
+        ),
+        context: context);
     startTimer();
   }
 
@@ -44,7 +49,14 @@ class Game extends AutoDisposeNotifier<GameState> {
     state.animationController!.forward();
     state.animationController!.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        // タイムアップ後の処理を追加
+        showDialog(
+          context: state.context!,
+          builder: (context) {
+            return const GameEndDialog(
+              gameEndType: GameEndType.timeUp,
+            );
+          },
+        );
       }
     });
   }
@@ -81,19 +93,20 @@ class Game extends AutoDisposeNotifier<GameState> {
   @override
   GameState build() {
     return GameState(
-        diffPoints: Map.from({
-          const TapPoint(offset: Offset(50, 25), radius: 10): false,
-          const TapPoint(offset: Offset(100, 25), radius: 10): false,
-          const TapPoint(offset: Offset(150, 80), radius: 10): false,
-        }),
+      diffPoints: Map.from({
+        const TapPoint(offset: Offset(50, 25), radius: 10): false,
+        const TapPoint(offset: Offset(100, 25), radius: 10): false,
+        const TapPoint(offset: Offset(150, 80), radius: 10): false,
+      }),
+      wrongTouchingNum: 0,
+      result: const Result(
+        remainingTime: 1,
+        level: LevelType.easy,
+        correctAnswersNum: 0,
+        issuesNum: 0,
         wrongTouchingNum: 0,
-        result: const Result(
-          remainingTime: 1,
-          level: LevelType.easy,
-          correctAnswersNum: 0,
-          issuesNum: 0,
-          wrongTouchingNum: 0,
-        ));
+      ),
+    );
   }
 }
 

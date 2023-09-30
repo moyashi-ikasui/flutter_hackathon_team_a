@@ -11,6 +11,7 @@ class GameState with _$GameState {
     LevelType? levelType,
     required int wrongTouchingNum,
     required Result result,
+    BuildContext? context,
   }) = _GameState;
   const GameState._();
 }
