@@ -7,8 +7,13 @@ part 'game_state.freezed.dart';
 class GameState with _$GameState {
   const factory GameState({
     required Map<TapPoint, bool> diffPoints,
+    AnimationController? animationController,
   }) = _GameState;
   const GameState._();
+}
+
+extension GameStateEx on GameState {
+  bool get isAnimationControllerInitialized => animationController != null;
 }
 
 class TapPoint {

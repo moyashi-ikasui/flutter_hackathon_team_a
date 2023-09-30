@@ -17,6 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$GameState {
   Map<TapPoint, bool> get diffPoints => throw _privateConstructorUsedError;
+  AnimationController? get animationController =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $GameStateCopyWith<GameState> get copyWith =>
@@ -28,7 +30,9 @@ abstract class $GameStateCopyWith<$Res> {
   factory $GameStateCopyWith(GameState value, $Res Function(GameState) then) =
       _$GameStateCopyWithImpl<$Res, GameState>;
   @useResult
-  $Res call({Map<TapPoint, bool> diffPoints});
+  $Res call(
+      {Map<TapPoint, bool> diffPoints,
+      AnimationController? animationController});
 }
 
 /// @nodoc
@@ -45,53 +49,65 @@ class _$GameStateCopyWithImpl<$Res, $Val extends GameState>
   @override
   $Res call({
     Object? diffPoints = null,
+    Object? animationController = freezed,
   }) {
     return _then(_value.copyWith(
       diffPoints: null == diffPoints
           ? _value.diffPoints
           : diffPoints // ignore: cast_nullable_to_non_nullable
               as Map<TapPoint, bool>,
+      animationController: freezed == animationController
+          ? _value.animationController
+          : animationController // ignore: cast_nullable_to_non_nullable
+              as AnimationController?,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$GameStateImplCopyWith<$Res>
-    implements $GameStateCopyWith<$Res> {
-  factory _$$GameStateImplCopyWith(
-          _$GameStateImpl value, $Res Function(_$GameStateImpl) then) =
-      __$$GameStateImplCopyWithImpl<$Res>;
+abstract class _$$_GameStateCopyWith<$Res> implements $GameStateCopyWith<$Res> {
+  factory _$$_GameStateCopyWith(
+          _$_GameState value, $Res Function(_$_GameState) then) =
+      __$$_GameStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Map<TapPoint, bool> diffPoints});
+  $Res call(
+      {Map<TapPoint, bool> diffPoints,
+      AnimationController? animationController});
 }
 
 /// @nodoc
-class __$$GameStateImplCopyWithImpl<$Res>
-    extends _$GameStateCopyWithImpl<$Res, _$GameStateImpl>
-    implements _$$GameStateImplCopyWith<$Res> {
-  __$$GameStateImplCopyWithImpl(
-      _$GameStateImpl _value, $Res Function(_$GameStateImpl) _then)
+class __$$_GameStateCopyWithImpl<$Res>
+    extends _$GameStateCopyWithImpl<$Res, _$_GameState>
+    implements _$$_GameStateCopyWith<$Res> {
+  __$$_GameStateCopyWithImpl(
+      _$_GameState _value, $Res Function(_$_GameState) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? diffPoints = null,
+    Object? animationController = freezed,
   }) {
-    return _then(_$GameStateImpl(
+    return _then(_$_GameState(
       diffPoints: null == diffPoints
           ? _value._diffPoints
           : diffPoints // ignore: cast_nullable_to_non_nullable
               as Map<TapPoint, bool>,
+      animationController: freezed == animationController
+          ? _value.animationController
+          : animationController // ignore: cast_nullable_to_non_nullable
+              as AnimationController?,
     ));
   }
 }
 
 /// @nodoc
 
-class _$GameStateImpl extends _GameState {
-  const _$GameStateImpl({required final Map<TapPoint, bool> diffPoints})
+class _$_GameState extends _GameState {
+  const _$_GameState(
+      {required final Map<TapPoint, bool> diffPoints, this.animationController})
       : _diffPoints = diffPoints,
         super._();
 
@@ -104,39 +120,47 @@ class _$GameStateImpl extends _GameState {
   }
 
   @override
+  final AnimationController? animationController;
+
+  @override
   String toString() {
-    return 'GameState(diffPoints: $diffPoints)';
+    return 'GameState(diffPoints: $diffPoints, animationController: $animationController)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$GameStateImpl &&
+            other is _$_GameState &&
             const DeepCollectionEquality()
-                .equals(other._diffPoints, _diffPoints));
+                .equals(other._diffPoints, _diffPoints) &&
+            (identical(other.animationController, animationController) ||
+                other.animationController == animationController));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_diffPoints));
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_diffPoints), animationController);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$GameStateImplCopyWith<_$GameStateImpl> get copyWith =>
-      __$$GameStateImplCopyWithImpl<_$GameStateImpl>(this, _$identity);
+  _$$_GameStateCopyWith<_$_GameState> get copyWith =>
+      __$$_GameStateCopyWithImpl<_$_GameState>(this, _$identity);
 }
 
 abstract class _GameState extends GameState {
-  const factory _GameState({required final Map<TapPoint, bool> diffPoints}) =
-      _$GameStateImpl;
+  const factory _GameState(
+      {required final Map<TapPoint, bool> diffPoints,
+      final AnimationController? animationController}) = _$_GameState;
   const _GameState._() : super._();
 
   @override
   Map<TapPoint, bool> get diffPoints;
   @override
+  AnimationController? get animationController;
+  @override
   @JsonKey(ignore: true)
-  _$$GameStateImplCopyWith<_$GameStateImpl> get copyWith =>
+  _$$_GameStateCopyWith<_$_GameState> get copyWith =>
       throw _privateConstructorUsedError;
 }
