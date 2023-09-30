@@ -24,57 +24,57 @@ class TopPage extends HookConsumerWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(
-                height: 30,
-              ),
+              const SizedBox(width: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const Text(
-                    '難易度',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF0050aa),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+                children: [
+                  Column(
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.orange,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                        onPressed: () {
+                          ref
+                              .read(gameProvider.notifier)
+                              .updateLevelType(LevelType.easy);
+                          Navigator.pushNamed(context, RouteName.game.name);
+                        },
+                        child: Text(
+                          LevelType.easy.name,
+                          style: const TextStyle(fontSize: 15),
+                        ),
                       ),
-                    ),
-                    onPressed: () {
-                      ref
-                          .read(gameProvider.notifier)
-                          .updateLevelType(LevelType.easy);
-                      Navigator.pushNamed(context, RouteName.game.name);
-                    },
-                    child: Text(
-                      LevelType.easy.name,
-                      style: const TextStyle(fontSize: 15),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF0050aa),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+                      const SizedBox(width: 30),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.orange,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                        onPressed: () {
+                          ref
+                              .read(gameProvider.notifier)
+                              .updateLevelType(LevelType.hard);
+                          Navigator.pushNamed(context, RouteName.game.name);
+                        },
+                        child: Text(
+                          LevelType.hard.name,
+                          style: const TextStyle(fontSize: 15),
+                        ),
                       ),
-                    ),
-                    onPressed: () {
-                      ref
-                          .read(gameProvider.notifier)
-                          .updateLevelType(LevelType.hard);
-                      Navigator.pushNamed(context, RouteName.game.name);
-                    },
-                    child: Text(
-                      LevelType.hard.name,
-                      style: const TextStyle(fontSize: 15),
-                    ),
-                  )
+                    ],
+                  ),
+                  const SizedBox(width: 30),
+                  SizedBox(
+                    height: 200,
+                    width: 200,
+                    child: Image.asset('assets/dash.png'),
+                  ),
                 ],
               ),
             ],

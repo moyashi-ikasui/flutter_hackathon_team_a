@@ -7,9 +7,9 @@ extension GameEndTypeEx on GameEndType {
   String get dialogMessage {
     switch (this) {
       case GameEndType.finish:
-        return 'これでOK？';
+        return '全部見つけれた？';
       case GameEndType.timeUp:
-        return '時間ぎれ！';
+        return '時間切れ！！';
     }
   }
 }
