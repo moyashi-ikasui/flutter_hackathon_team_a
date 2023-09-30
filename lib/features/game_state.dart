@@ -34,6 +34,15 @@ extension LevelTypeExt on LevelType {
         return '難しい';
     }
   }
+
+  List<String> get imagePath {
+    switch (this) {
+      case LevelType.easy:
+        return ['assets/easy_01.png', 'assets/easy_02.png'];
+      case LevelType.hard:
+        return ['assets/hard_01.png', 'assets/hard_02.png'];
+    }
+  }
 }
 
 class TapPoint {
