@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hackathon_team_a/features/level_provider.dart';
+import 'package:flutter_hackathon_team_a/features/game.dart';
+import 'package:flutter_hackathon_team_a/features/game_state.dart';
 import 'package:flutter_hackathon_team_a/router/router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -43,8 +44,8 @@ class TopPage extends HookConsumerWidget {
                   ),
                   onPressed: () {
                     ref
-                        .read(levelProvider.notifier)
-                        .update((state) => state = LevelType.easy);
+                        .read(gameProvider.notifier)
+                        .updateLevelType(LevelType.easy);
                     Navigator.pushNamed(context, RouteName.game.name);
                   },
                   child: Text(
@@ -62,8 +63,8 @@ class TopPage extends HookConsumerWidget {
                   ),
                   onPressed: () {
                     ref
-                        .read(levelProvider.notifier)
-                        .update((state) => state = LevelType.hard);
+                        .read(gameProvider.notifier)
+                        .updateLevelType(LevelType.hard);
                     Navigator.pushNamed(context, RouteName.game.name);
                   },
                   child: Text(

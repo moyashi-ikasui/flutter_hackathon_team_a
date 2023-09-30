@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hackathon_team_a/constants/const.dart';
-import 'package:flutter_hackathon_team_a/pages/game/feature/game_state.dart';
+import 'package:flutter_hackathon_team_a/features/game_state.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class Game extends AutoDisposeNotifier<GameState> {
@@ -50,6 +50,10 @@ class Game extends AutoDisposeNotifier<GameState> {
     final isNewValueNegative = newValue > 1;
     final fixedNewValue = isNewValueNegative ? 1.0 : newValue;
     state.animationController!.forward(from: fixedNewValue);
+  }
+
+  void updateLevelType(LevelType value) {
+    state = state.copyWith(levelType: value);
   }
 
   @override
