@@ -2,23 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hackathon_team_a/constants/const.dart';
 import 'package:flutter_hackathon_team_a/features/game_state.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:collection/collection.dart';
+import 'package:just_audio/just_audio.dart';
 
 class Game extends AutoDisposeNotifier<GameState> {
   Game();
 
   void tapPoint(Offset offset) {
+    // final wrongAnswerPlayer = AudioPlayer()
+    //   ..setAsset("assets/sounds/wrong_answer.mp3");
+    // final correctAnswerPlayer = AudioPlayer()
+    //   ..setAsset("assets/sounds/correct_answer.mp3");
     final newMap = Map<TapPoint, bool>.from(state.diffPoints);
-    var isCorrect = false;
-    for (var element in state.diffPoints.entries) {
-      if (element.key.isTap(offset)) {
-        newMap[element.key] = true;
-        isCorrect = true;
-      }
-    }
-    if (!isCorrect) {
+
+    final tappedPoint = state.diffPoints.entries
+        .firstWhereOrNull((element) => element.key.isTap(offset));
+
+    // タップしたポイントが存在しない場合
+    if (tappedPoint == null) {
+      // wrongAnswerPlayer.play();
       reduceTimer();
+      state = state.copyWith(wrongTouchingNum: state.wrongTouchingNum + 1);
+    } else {
+      // correctAnswerPlayer.play();
+      newMap[tappedPoint.key] = true;
+      state = state.copyWith(diffPoints: newMap);
     }
-    state = state.copyWith(diffPoints: newMap);
   }
 
   void initializeAnimationController(TickerProvider tickerProvider) {
@@ -56,15 +65,35 @@ class Game extends AutoDisposeNotifier<GameState> {
     state = state.copyWith(levelType: value);
   }
 
+  void finishGame() {
+    state = state.copyWith(
+      result: Result(
+        remainingTime: (state.animationController!.value * gameTimeSec).toInt(),
+        level: LevelType.easy, // TODO,
+        correctAnswersNum:
+            state.diffPoints.values.where((element) => element).toList().length,
+        issuesNum: state.diffPoints.values.length,
+        wrongTouchingNum: state.wrongTouchingNum,
+      ),
+    );
+  }
+
   @override
   GameState build() {
     return GameState(
-      diffPoints: Map.from({
-        const TapPoint(offset: Offset(50, 25), radius: 10): false,
-        const TapPoint(offset: Offset(100, 25), radius: 10): false,
-        const TapPoint(offset: Offset(150, 80), radius: 10): false,
-      }),
-    );
+        diffPoints: Map.from({
+          const TapPoint(offset: Offset(50, 25), radius: 10): false,
+          const TapPoint(offset: Offset(100, 25), radius: 10): false,
+          const TapPoint(offset: Offset(150, 80), radius: 10): false,
+        }),
+        wrongTouchingNum: 0,
+        result: const Result(
+          remainingTime: 1,
+          level: LevelType.easy,
+          correctAnswersNum: 0,
+          issuesNum: 0,
+          wrongTouchingNum: 0,
+        ));
   }
 }
 
