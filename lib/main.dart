@@ -27,6 +27,7 @@ class MyApp extends HookConsumerWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      initialRoute: RouteName.game.name,
       routes: ref.watch(routerProvider),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
