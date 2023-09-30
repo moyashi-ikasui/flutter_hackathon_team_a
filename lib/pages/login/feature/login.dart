@@ -1,4 +1,4 @@
-import 'package:flutter_hackathon_team_a/pages/feature/login_state.dart';
+import 'package:flutter_hackathon_team_a/pages/login/feature/login_state.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class Login extends AutoDisposeNotifier<LoginState> {

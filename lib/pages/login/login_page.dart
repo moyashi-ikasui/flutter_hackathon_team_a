@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hackathon_team_a/pages/feature/login.dart';
+import 'package:flutter_hackathon_team_a/pages/login/feature/login.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class LoginPage extends HookConsumerWidget {
