@@ -62,6 +62,7 @@ class GamePage extends HookConsumerWidget {
                               child: Container(
                                 width: 25,
                                 height: 25,
+                                alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(100),
                                   border: Border.all(

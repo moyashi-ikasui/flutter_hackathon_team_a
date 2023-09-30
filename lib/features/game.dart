@@ -100,6 +100,25 @@ class Game extends AutoDisposeNotifier<GameState> {
 
   void updateLevelType(LevelType value) {
     state = state.copyWith(levelType: value);
+    // diffPointsの値を変える
+    if (value == LevelType.easy) {
+      state = state.copyWith(
+          diffPoints: Map.from({
+        const TapPoint(offset: Offset(120, 15), verticalSide: 30, horizontalSide: 15): false,
+        const TapPoint(offset: Offset(120, 50), verticalSide: 30, horizontalSide: 15): false,
+        const TapPoint(offset: Offset(120, 110), verticalSide: 30, horizontalSide: 20): false,
+      }));
+    }
+    if (value == LevelType.hard) {
+      state = state.copyWith(
+        diffPoints: Map.from({
+          const TapPoint(offset: Offset(140, 40), verticalSide: 35, horizontalSide: 10): false,
+          const TapPoint(offset: Offset(120, 64), verticalSide: 35, horizontalSide: 10): false,
+          const TapPoint(offset: Offset(140, 90), verticalSide: 10, horizontalSide: 15): false,
+          const TapPoint(offset: Offset(105, 95), verticalSide: 15, horizontalSide: 10): false,
+        }),
+      );
+    }
   }
 
   void finishGame() {
@@ -129,11 +148,7 @@ class Game extends AutoDisposeNotifier<GameState> {
     });
 
     return GameState(
-      diffPoints: Map.from({
-        const TapPoint(offset: Offset(50, 25), radius: 10): false,
-        const TapPoint(offset: Offset(100, 25), radius: 10): false,
-        const TapPoint(offset: Offset(150, 80), radius: 10): false,
-      }),
+      diffPoints: Map.from({}),
       wrongTouchingNum: 0,
       result: const Result(
         remainingTime: 1,
