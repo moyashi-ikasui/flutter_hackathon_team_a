@@ -81,7 +81,7 @@ class Game extends AutoDisposeNotifier<GameState> {
     state = state.copyWith(
       result: Result(
         remainingTime: (state.animationController!.value * gameTimeSec).toInt(),
-        level: LevelType.easy, // TODO,
+        level: state.levelType!,
         correctAnswersNum:
             state.diffPoints.values.where((element) => element).toList().length,
         issuesNum: state.diffPoints.values.length,
