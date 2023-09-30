@@ -57,7 +57,7 @@ class GamePage extends HookConsumerWidget {
                                   border: Border.all(
                                       color: state.diffPoints[e.key]!
                                           ? Colors.red
-                                          : Color.fromARGB(255, 84, 42, 251),
+                                          : Colors.transparent,
                                       width: 5),
                                 ),
                               ),

@@ -112,20 +112,7 @@ class Game extends AutoDisposeNotifier<GameState> {
   @override
   GameState build() {
     return GameState(
-      diffPoints: Map.from({
-        const TapPoint(
-            offset: Offset(90, 5),
-            verticalSide: 10,
-            horizontalSide: 50): false,
-        const TapPoint(
-            offset: Offset(100, 40),
-            verticalSide: 10,
-            horizontalSide: 10): false,
-        const TapPoint(
-            offset: Offset(100, 100),
-            verticalSide: 10,
-            horizontalSide: 10): false,
-      }),
+      diffPoints: Map.from({}),
       wrongTouchingNum: 0,
       result: const Result(
         remainingTime: 1,
