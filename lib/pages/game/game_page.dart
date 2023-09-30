@@ -18,17 +18,6 @@ class GamePage extends HookConsumerWidget {
     final defaultImg = state.levelType?.imagePath[1];
 
     final diffPointsList = useMemoized(() => state.diffPoints.entries.toList());
-    final controller = useRef<AnimationController?>(null);
-
-    // void reduceTimer() {
-    //   final newValue = controller.value!.value + (timeReduceSec / gameTimeSec);
-    //   final isNewValueNegative = newValue > 1;
-    //   final fixedNewValue = isNewValueNegative ? 1.0 : newValue;
-    //   controller.value!.forward(from: fixedNewValue);
-    // }
-
-    // useValueChanged(
-    //     state.wrongTouchingNum, (oldValue, oldResult) => {reduceTimer()});
 
     return Scaffold(
       body: Background(
