@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hackathon_team_a/features/game.dart';
 import 'package:flutter_hackathon_team_a/features/game_state.dart';
+import 'package:flutter_hackathon_team_a/pages/game/widgets/partner_words/partner_words.dart';
 import 'package:flutter_hackathon_team_a/pages/game/widgets/submit_button.dart';
 import 'package:flutter_hackathon_team_a/pages/game/widgets/background.dart';
-import 'package:flutter_hackathon_team_a/pages/game/widgets/timer_bar_wrapper.dart';
+import 'package:flutter_hackathon_team_a/pages/game/widgets/timer_bar/timer_bar_wrapper.dart';
 import 'package:flutter_hackathon_team_a/util/spacer.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -18,22 +19,12 @@ class GamePage extends HookConsumerWidget {
     final defaultImg = state.levelType?.imagePath[1];
 
     final diffPointsList = useMemoized(() => state.diffPoints.entries.toList());
-    final controller = useRef<AnimationController?>(null);
-
-    // void reduceTimer() {
-    //   final newValue = controller.value!.value + (timeReduceSec / gameTimeSec);
-    //   final isNewValueNegative = newValue > 1;
-    //   final fixedNewValue = isNewValueNegative ? 1.0 : newValue;
-    //   controller.value!.forward(from: fixedNewValue);
-    // }
-
-    // useValueChanged(
-    //     state.wrongTouchingNum, (oldValue, oldResult) => {reduceTimer()});
 
     return Scaffold(
       body: Background(
         widget: Column(
           children: [
+            const PartnerWords(),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,9 +80,9 @@ class GamePage extends HookConsumerWidget {
                 ),
               ],
             ),
-            const HSpacer(height: 12),
+            const HSpacer(height: 8),
             const SubmitButton(),
-            const HSpacer(height: 12),
+            const HSpacer(height: 8),
             const TimerBarWrapper(),
           ],
         ),

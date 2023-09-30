@@ -44,6 +44,9 @@ dependencies:
   collection: ^1.17.0
   intl: ^0.18.1
   assets_audio_player: ^3.1.1
+  google_fonts: ^4.0.4
+  animated_text_kit: ^4.2.2
+  animated_widgets: ^1.1.0
 
 dev_dependencies:
   flutter_test:

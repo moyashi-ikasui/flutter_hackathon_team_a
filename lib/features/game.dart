@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hackathon_team_a/constants/const.dart';
 import 'package:flutter_hackathon_team_a/features/game_end_type.dart';
 import 'package:flutter_hackathon_team_a/features/game_state.dart';
-import 'package:flutter_hackathon_team_a/pages/game/widgets/game_end_dialog.dart';
+import 'package:flutter_hackathon_team_a/pages/game/widgets/game_end_dialog/game_end_dialog.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:collection/collection.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
@@ -72,10 +72,16 @@ class Game extends AutoDisposeNotifier<GameState> {
 
   void startTimer() {
     state.animationController!.forward();
+    state.animationController!.addListener(() {
+      if (!state.isAngry && state.animationController!.value > 0.8) {
+        state = state.copyWith(isAngry: true);
+      }
+    });
     state.animationController!.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         showDialog(
           context: state.context!,
+          barrierDismissible: false,
           builder: (context) {
             return const GameEndDialog(
               gameEndType: GameEndType.timeUp,
@@ -157,6 +163,7 @@ class Game extends AutoDisposeNotifier<GameState> {
         issuesNum: 0,
         wrongTouchingNum: 0,
       ),
+      isAngry: false,
     );
   }
 }
