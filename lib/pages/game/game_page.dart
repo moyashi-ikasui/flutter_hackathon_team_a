@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hackathon_team_a/features/game.dart';
+import 'package:flutter_hackathon_team_a/features/game_state.dart';
 import 'package:flutter_hackathon_team_a/pages/game/widgets/submit_button.dart';
 import 'package:flutter_hackathon_team_a/pages/game/widgets/background.dart';
 import 'package:flutter_hackathon_team_a/pages/game/widgets/timer_bar_wrapper.dart';
@@ -13,6 +14,8 @@ class GamePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(gameProvider);
+    final diffImg = state.levelType?.imagePath[0];
+    final defaultImg = state.levelType?.imagePath[1];
 
     final diffPointsList = useMemoized(() => state.diffPoints.entries.toList());
 
@@ -32,7 +35,14 @@ class GamePage extends HookConsumerWidget {
                   },
                   child: Stack(
                     children: [
-                      Image.asset("assets/woman.png"),
+                      SizedBox(
+                        width: 200,
+                        height: 200,
+                        child: Image.asset(
+                          diffImg ?? "assets/woman.png",
+                          fit: BoxFit.contain,
+                        ),
+                      ),
                       ...diffPointsList
                           .map(
                             (e) => Positioned(
@@ -57,7 +67,14 @@ class GamePage extends HookConsumerWidget {
                   ),
                 ),
                 const SizedBox(width: 20),
-                Image.asset("assets/woman.png"),
+                SizedBox(
+                  width: 200,
+                  height: 200,
+                  child: Image.asset(
+                    defaultImg ?? "assets/woman.png",
+                    fit: BoxFit.contain,
+                  ),
+                ),
               ],
             ),
             const HSpacer(height: 12),

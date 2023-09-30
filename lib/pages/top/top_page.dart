@@ -10,6 +10,7 @@ class TopPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(gameProvider);
     return Scaffold(
       body: Background(
         widget: Center(
