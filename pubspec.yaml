@@ -41,6 +41,8 @@ dependencies:
   riverpod: ^2.3.6
   hooks_riverpod: ^2.3.6
   shared_preferences: ^2.2.1
+  collection: ^1.17.0
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:

@@ -20,6 +20,8 @@ mixin _$GameState {
   AnimationController? get animationController =>
       throw _privateConstructorUsedError;
   LevelType? get levelType => throw _privateConstructorUsedError;
+  int get wrongTouchingNum => throw _privateConstructorUsedError;
+  Result get result => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $GameStateCopyWith<GameState> get copyWith =>
@@ -34,7 +36,9 @@ abstract class $GameStateCopyWith<$Res> {
   $Res call(
       {Map<TapPoint, bool> diffPoints,
       AnimationController? animationController,
-      LevelType? levelType});
+      LevelType? levelType,
+      int wrongTouchingNum,
+      Result result});
 }
 
 /// @nodoc
@@ -53,6 +57,8 @@ class _$GameStateCopyWithImpl<$Res, $Val extends GameState>
     Object? diffPoints = null,
     Object? animationController = freezed,
     Object? levelType = freezed,
+    Object? wrongTouchingNum = null,
+    Object? result = null,
   }) {
     return _then(_value.copyWith(
       diffPoints: null == diffPoints
@@ -67,6 +73,14 @@ class _$GameStateCopyWithImpl<$Res, $Val extends GameState>
           ? _value.levelType
           : levelType // ignore: cast_nullable_to_non_nullable
               as LevelType?,
+      wrongTouchingNum: null == wrongTouchingNum
+          ? _value.wrongTouchingNum
+          : wrongTouchingNum // ignore: cast_nullable_to_non_nullable
+              as int,
+      result: null == result
+          ? _value.result
+          : result // ignore: cast_nullable_to_non_nullable
+              as Result,
     ) as $Val);
   }
 }
@@ -81,7 +95,9 @@ abstract class _$$_GameStateCopyWith<$Res> implements $GameStateCopyWith<$Res> {
   $Res call(
       {Map<TapPoint, bool> diffPoints,
       AnimationController? animationController,
-      LevelType? levelType});
+      LevelType? levelType,
+      int wrongTouchingNum,
+      Result result});
 }
 
 /// @nodoc
@@ -98,6 +114,8 @@ class __$$_GameStateCopyWithImpl<$Res>
     Object? diffPoints = null,
     Object? animationController = freezed,
     Object? levelType = freezed,
+    Object? wrongTouchingNum = null,
+    Object? result = null,
   }) {
     return _then(_$_GameState(
       diffPoints: null == diffPoints
@@ -112,6 +130,14 @@ class __$$_GameStateCopyWithImpl<$Res>
           ? _value.levelType
           : levelType // ignore: cast_nullable_to_non_nullable
               as LevelType?,
+      wrongTouchingNum: null == wrongTouchingNum
+          ? _value.wrongTouchingNum
+          : wrongTouchingNum // ignore: cast_nullable_to_non_nullable
+              as int,
+      result: null == result
+          ? _value.result
+          : result // ignore: cast_nullable_to_non_nullable
+              as Result,
     ));
   }
 }
@@ -122,7 +148,9 @@ class _$_GameState extends _GameState {
   const _$_GameState(
       {required final Map<TapPoint, bool> diffPoints,
       this.animationController,
-      this.levelType})
+      this.levelType,
+      required this.wrongTouchingNum,
+      required this.result})
       : _diffPoints = diffPoints,
         super._();
 
@@ -138,10 +166,14 @@ class _$_GameState extends _GameState {
   final AnimationController? animationController;
   @override
   final LevelType? levelType;
+  @override
+  final int wrongTouchingNum;
+  @override
+  final Result result;
 
   @override
   String toString() {
-    return 'GameState(diffPoints: $diffPoints, animationController: $animationController, levelType: $levelType)';
+    return 'GameState(diffPoints: $diffPoints, animationController: $animationController, levelType: $levelType, wrongTouchingNum: $wrongTouchingNum, result: $result)';
   }
 
   @override
@@ -154,7 +186,10 @@ class _$_GameState extends _GameState {
             (identical(other.animationController, animationController) ||
                 other.animationController == animationController) &&
             (identical(other.levelType, levelType) ||
-                other.levelType == levelType));
+                other.levelType == levelType) &&
+            (identical(other.wrongTouchingNum, wrongTouchingNum) ||
+                other.wrongTouchingNum == wrongTouchingNum) &&
+            (identical(other.result, result) || other.result == result));
   }
 
   @override
@@ -162,7 +197,9 @@ class _$_GameState extends _GameState {
       runtimeType,
       const DeepCollectionEquality().hash(_diffPoints),
       animationController,
-      levelType);
+      levelType,
+      wrongTouchingNum,
+      result);
 
   @JsonKey(ignore: true)
   @override
@@ -175,7 +212,9 @@ abstract class _GameState extends GameState {
   const factory _GameState(
       {required final Map<TapPoint, bool> diffPoints,
       final AnimationController? animationController,
-      final LevelType? levelType}) = _$_GameState;
+      final LevelType? levelType,
+      required final int wrongTouchingNum,
+      required final Result result}) = _$_GameState;
   const _GameState._() : super._();
 
   @override
@@ -184,6 +223,10 @@ abstract class _GameState extends GameState {
   AnimationController? get animationController;
   @override
   LevelType? get levelType;
+  @override
+  int get wrongTouchingNum;
+  @override
+  Result get result;
   @override
   @JsonKey(ignore: true)
   _$$_GameStateCopyWith<_$_GameState> get copyWith =>
