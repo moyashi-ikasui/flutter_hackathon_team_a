@@ -1,6 +1,7 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter_hackathon_team_a/constants/const.dart';
+import 'package:flutter_hackathon_team_a/pages/game/widgets/timer_bar_base.dart';
 import 'package:flutter_hackathon_team_a/util/size_helper.dart';
 
 class AnimatedTimerBar extends StatelessWidget {
@@ -22,34 +23,35 @@ class AnimatedTimerBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final buttonWidthMax = context.width * 0.9;
-    return AnimatedBuilder(
-      animation: animationController,
-      builder: (context, child) {
-        return Padding(
-          padding: EdgeInsets.symmetric(
-              vertical: 18,
-              horizontal: (buttonWidthMax * animationController.value) * 0.08),
-          child: Container(
-            width: buttonWidthMax * (1 - animationController.value),
-            height: 16,
-            decoration: BoxDecoration(
-              color: Colors.greenAccent,
-              borderRadius: BorderRadius.circular(50),
-            ),
-            child: FittedBox(
-              child: Center(
-                child: Text(
-                  _formattedTime,
-                  style: const TextStyle(
-                    color: Colors.black87,
+    final buttonWidthMax = context.width * 0.8;
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        const TimerBarBase(),
+        AnimatedBuilder(
+          animation: animationController,
+          builder: (context, child) {
+            return Container(
+              width: buttonWidthMax * (1 - animationController.value),
+              height: 16,
+              decoration: BoxDecoration(
+                color: Colors.greenAccent,
+                borderRadius: BorderRadius.circular(50),
+              ),
+              child: FittedBox(
+                child: Center(
+                  child: Text(
+                    _formattedTime,
+                    style: const TextStyle(
+                      color: Colors.black87,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ),
-        );
-      },
+            );
+          },
+        ),
+      ],
     );
   }
 }
