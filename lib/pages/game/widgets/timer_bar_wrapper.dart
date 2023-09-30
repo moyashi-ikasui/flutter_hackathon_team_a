@@ -19,7 +19,9 @@ class _TimerBarWrapperState extends ConsumerState<TimerBarWrapper>
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      ref.read(gameProvider.notifier).initializeAnimationController(this);
+      ref
+          .read(gameProvider.notifier)
+          .initializeAnimationController(this, context);
     });
   }
 

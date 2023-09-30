@@ -22,6 +22,7 @@ mixin _$GameState {
   LevelType? get levelType => throw _privateConstructorUsedError;
   int get wrongTouchingNum => throw _privateConstructorUsedError;
   Result get result => throw _privateConstructorUsedError;
+  BuildContext? get context => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $GameStateCopyWith<GameState> get copyWith =>
@@ -38,7 +39,8 @@ abstract class $GameStateCopyWith<$Res> {
       AnimationController? animationController,
       LevelType? levelType,
       int wrongTouchingNum,
-      Result result});
+      Result result,
+      BuildContext? context});
 }
 
 /// @nodoc
@@ -59,6 +61,7 @@ class _$GameStateCopyWithImpl<$Res, $Val extends GameState>
     Object? levelType = freezed,
     Object? wrongTouchingNum = null,
     Object? result = null,
+    Object? context = freezed,
   }) {
     return _then(_value.copyWith(
       diffPoints: null == diffPoints
@@ -81,6 +84,10 @@ class _$GameStateCopyWithImpl<$Res, $Val extends GameState>
           ? _value.result
           : result // ignore: cast_nullable_to_non_nullable
               as Result,
+      context: freezed == context
+          ? _value.context
+          : context // ignore: cast_nullable_to_non_nullable
+              as BuildContext?,
     ) as $Val);
   }
 }
@@ -97,7 +104,8 @@ abstract class _$$_GameStateCopyWith<$Res> implements $GameStateCopyWith<$Res> {
       AnimationController? animationController,
       LevelType? levelType,
       int wrongTouchingNum,
-      Result result});
+      Result result,
+      BuildContext? context});
 }
 
 /// @nodoc
@@ -116,6 +124,7 @@ class __$$_GameStateCopyWithImpl<$Res>
     Object? levelType = freezed,
     Object? wrongTouchingNum = null,
     Object? result = null,
+    Object? context = freezed,
   }) {
     return _then(_$_GameState(
       diffPoints: null == diffPoints
@@ -138,6 +147,10 @@ class __$$_GameStateCopyWithImpl<$Res>
           ? _value.result
           : result // ignore: cast_nullable_to_non_nullable
               as Result,
+      context: freezed == context
+          ? _value.context
+          : context // ignore: cast_nullable_to_non_nullable
+              as BuildContext?,
     ));
   }
 }
@@ -150,7 +163,8 @@ class _$_GameState extends _GameState {
       this.animationController,
       this.levelType,
       required this.wrongTouchingNum,
-      required this.result})
+      required this.result,
+      this.context})
       : _diffPoints = diffPoints,
         super._();
 
@@ -170,10 +184,12 @@ class _$_GameState extends _GameState {
   final int wrongTouchingNum;
   @override
   final Result result;
+  @override
+  final BuildContext? context;
 
   @override
   String toString() {
-    return 'GameState(diffPoints: $diffPoints, animationController: $animationController, levelType: $levelType, wrongTouchingNum: $wrongTouchingNum, result: $result)';
+    return 'GameState(diffPoints: $diffPoints, animationController: $animationController, levelType: $levelType, wrongTouchingNum: $wrongTouchingNum, result: $result, context: $context)';
   }
 
   @override
@@ -189,7 +205,8 @@ class _$_GameState extends _GameState {
                 other.levelType == levelType) &&
             (identical(other.wrongTouchingNum, wrongTouchingNum) ||
                 other.wrongTouchingNum == wrongTouchingNum) &&
-            (identical(other.result, result) || other.result == result));
+            (identical(other.result, result) || other.result == result) &&
+            (identical(other.context, context) || other.context == context));
   }
 
   @override
@@ -199,7 +216,8 @@ class _$_GameState extends _GameState {
       animationController,
       levelType,
       wrongTouchingNum,
-      result);
+      result,
+      context);
 
   @JsonKey(ignore: true)
   @override
@@ -214,7 +232,8 @@ abstract class _GameState extends GameState {
       final AnimationController? animationController,
       final LevelType? levelType,
       required final int wrongTouchingNum,
-      required final Result result}) = _$_GameState;
+      required final Result result,
+      final BuildContext? context}) = _$_GameState;
   const _GameState._() : super._();
 
   @override
@@ -227,6 +246,8 @@ abstract class _GameState extends GameState {
   int get wrongTouchingNum;
   @override
   Result get result;
+  @override
+  BuildContext? get context;
   @override
   @JsonKey(ignore: true)
   _$$_GameStateCopyWith<_$_GameState> get copyWith =>
