@@ -1,7 +1,7 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter_hackathon_team_a/features/game_end_type.dart';
-import 'package:flutter_hackathon_team_a/pages/game/widgets/confirm_button.dart';
+import 'package:flutter_hackathon_team_a/pages/game/widgets/game_end_dialog/confirm_button.dart';
 import 'package:flutter_hackathon_team_a/util/spacer.dart';
 
 class GameEndDialog extends StatelessWidget {

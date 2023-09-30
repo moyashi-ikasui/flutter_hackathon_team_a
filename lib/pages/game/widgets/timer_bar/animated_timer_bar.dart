@@ -1,7 +1,7 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter_hackathon_team_a/constants/const.dart';
-import 'package:flutter_hackathon_team_a/pages/game/widgets/timer_bar_base.dart';
+import 'package:flutter_hackathon_team_a/pages/game/widgets/timer_bar/timer_bar_base.dart';
 import 'package:flutter_hackathon_team_a/util/size_helper.dart';
 
 class AnimatedTimerBar extends StatelessWidget {
