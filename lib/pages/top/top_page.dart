@@ -14,11 +14,9 @@ class TopPage extends HookConsumerWidget {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, RouteName.detection.name),
-        child: Container(
-          child: const Text(
-            "解析",
-            style: TextStyle(fontSize: 15),
-          ),
+        child: const Text(
+          "解析",
+          style: TextStyle(fontSize: 15),
         ),
       ),
       body: Background(
