@@ -112,19 +112,27 @@ class ResultPage extends HookConsumerWidget {
                   ],
                 ),
                 SizedBox(
-                  width: 260,
+                  width: 290,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        "最高の彼氏",
-                        style: TextStyle(
-                          fontSize: 38,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
+                      state.result.totalScore > 20000
+                          ? const Text(
+                              "最高の彼氏",
+                              style: TextStyle(
+                                fontSize: 38,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            )
+                          : const Text(
+                              "もうちょっと頑張って",
+                              style: TextStyle(
+                                fontSize: 28,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
                       const SizedBox(
-                        width: 260,
+                        width: 290,
                         child: Divider(
                           thickness: 1,
                           color: Colors.black,
@@ -207,7 +215,7 @@ class ResultPage extends HookConsumerWidget {
                         ],
                       ),
                       const SizedBox(
-                        width: 260,
+                        width: 290,
                         child: Divider(
                           thickness: 1,
                           color: Colors.black,
