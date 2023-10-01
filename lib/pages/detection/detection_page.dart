@@ -20,6 +20,7 @@ class DetectionPage extends StatefulHookConsumerWidget {
 class DetectionPageState extends ConsumerState<DetectionPage> {
   static const double imageSize = 200;
   Future<void> runAnalyzeAnimation() async {
+    ref.read(gameProvider.notifier).analyzingPlayer.play();
     setState(() {
       isAnalyzing = true;
     });
@@ -28,6 +29,7 @@ class DetectionPageState extends ConsumerState<DetectionPage> {
       showAnimationBox = true;
     });
     await Future.delayed(const Duration(milliseconds: 1000));
+    ref.read(gameProvider.notifier).analyzingPlayer.stop();
   }
 
   bool isAnalyzing = false;

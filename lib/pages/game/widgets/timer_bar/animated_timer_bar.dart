@@ -34,7 +34,7 @@ class AnimatedTimerBar extends StatelessWidget {
             return Container(
               width: buttonWidthMax * (1 - animationController.value),
               height: 20,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.grey,
               ),
               child: FittedBox(
