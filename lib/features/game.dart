@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -176,7 +175,6 @@ class Game extends AutoDisposeNotifier<GameState> {
     final result =
         await Future.wait([file1.readAsBytes(), file2.readAsBytes()]);
     return diffImage(file1, file2).then((value) {
-      print(inspect(value));
       state = state.copyWith(
         originalDiffPoints: value,
         originalImage1: result[0],

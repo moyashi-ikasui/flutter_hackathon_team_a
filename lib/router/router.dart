@@ -15,7 +15,6 @@ final routerProvider = Provider(
 );
 
 enum RouteName {
-  login, // 後で消す
   top,
   game,
   result,

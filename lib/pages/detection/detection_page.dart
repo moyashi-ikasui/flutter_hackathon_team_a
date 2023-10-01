@@ -2,25 +2,39 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hackathon_team_a/pages/detection/widgets/animation_box.dart';
 import 'package:flutter_hackathon_team_a/features/game.dart';
+import 'package:flutter_hackathon_team_a/pages/detection/widgets/detection_done_dialog/detection_end_dialog.dart';
 import 'package:flutter_hackathon_team_a/pages/game/widgets/background.dart';
+import 'package:flutter_hackathon_team_a/util/size_helper.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class DetectionPage extends HookConsumerWidget {
+class DetectionPage extends StatefulHookConsumerWidget {
   const DetectionPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final positionValue = useState<double>(1000);
-    const double imageSize = 200;
+  DetectionPageState createState() => DetectionPageState();
+}
 
-    useEffect(() {
-      positionValue.value = 0;
+class DetectionPageState extends ConsumerState<DetectionPage> {
+  static const double imageSize = 200;
+  Future<void> runAnalyzeAnimation() async {
+    setState(() {
+      isAnalyzing = true;
+    });
+    await Future.delayed(const Duration(milliseconds: 1000));
+    setState(() {
+      showAnimationBox = true;
+    });
+    await Future.delayed(const Duration(milliseconds: 1000));
+  }
 
-      return null;
-    }, []);
+  bool isAnalyzing = false;
+  bool showAnimationBox = false;
 
+  @override
+  Widget build(BuildContext context) {
     final image1 = useState<File?>(null);
     final image2 = useState<File?>(null);
 
@@ -30,7 +44,14 @@ class DetectionPage extends HookConsumerWidget {
             .read(gameProvider.notifier)
             .uploadOriginal(image1.value!, image2.value!)
             .then((value) {
-          Navigator.pop(context);
+          runAnalyzeAnimation().then((value) {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return const DetectionEndDialog();
+              },
+            );
+          });
         });
       }
       return null;
@@ -40,152 +61,92 @@ class DetectionPage extends HookConsumerWidget {
       widget: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Stack(
+            alignment: Alignment.center,
             children: [
-              InkWell(
-                onTap: () async {
-                  final result = await FilePicker.platform.pickFiles(
-                    type: FileType.image,
-                  );
-                  if (result == null) return;
-                  image1.value = File(result.files.first.path!);
-                },
-                child: image1.value == null
-                    ? Container(
-                        width: imageSize,
-                        height: imageSize,
-                        decoration: BoxDecoration(border: Border.all()),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Icon(
-                              Icons.image_rounded,
-                              size: 30,
+              SizedBox(
+                width: context.width * 0.6,
+                child: AnimatedAlign(
+                  curve: Curves.easeOut,
+                  alignment:
+                      isAnalyzing ? Alignment.center : Alignment.centerLeft,
+                  duration: const Duration(milliseconds: 1000),
+                  child: InkWell(
+                    onTap: () async {
+                      final result = await FilePicker.platform.pickFiles(
+                        type: FileType.image,
+                      );
+                      if (result == null) return;
+                      image1.value = File(result.files.first.path!);
+                    },
+                    child: image1.value == null
+                        ? Container(
+                            width: imageSize,
+                            height: imageSize,
+                            decoration: BoxDecoration(border: Border.all()),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Icon(
+                                  Icons.image_rounded,
+                                  size: 30,
+                                ),
+                                Text("ファイルをアップロード")
+                              ],
                             ),
-                            Text("ファイルをアップロード")
-                          ],
-                        ),
-                      )
-                    : Image.file(
-                        image1.value!,
-                        width: imageSize,
-                        height: imageSize,
-                      ),
+                          )
+                        : Image.file(
+                            image1.value!,
+                            width: imageSize,
+                            height: imageSize,
+                          ),
+                  ),
+                ),
               ),
-              const SizedBox(width: 100),
-              InkWell(
-                onTap: () async {
-                  final result = await FilePicker.platform.pickFiles(
-                    type: FileType.image,
-                  );
-                  if (result == null) return;
-                  image2.value = File(result.files.first.path!);
-                },
-                child: image2.value == null
-                    ? Container(
-                        width: imageSize,
-                        height: imageSize,
-                        decoration: BoxDecoration(border: Border.all()),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Icon(
-                              Icons.image_rounded,
-                              size: 30,
+              SizedBox(
+                width: context.width * 0.6,
+                child: AnimatedAlign(
+                  curve: Curves.easeOut,
+                  alignment:
+                      isAnalyzing ? Alignment.center : Alignment.centerRight,
+                  duration: const Duration(milliseconds: 1000),
+                  child: InkWell(
+                    onTap: () async {
+                      final result = await FilePicker.platform.pickFiles(
+                        type: FileType.image,
+                      );
+                      if (result == null) return;
+                      image2.value = File(result.files.first.path!);
+                    },
+                    child: image2.value == null
+                        ? Container(
+                            width: imageSize,
+                            height: imageSize,
+                            decoration: BoxDecoration(border: Border.all()),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Icon(
+                                  Icons.image_rounded,
+                                  size: 30,
+                                ),
+                                Text("ファイルをアップロード")
+                              ],
                             ),
-                            Text("ファイルをアップロード")
-                          ],
-                        ),
-                      )
-                    : Image.file(
-                        image2.value!,
-                        width: imageSize,
-                        height: imageSize,
-                      ),
+                          )
+                        : Image.file(
+                            image2.value!,
+                            width: imageSize,
+                            height: imageSize,
+                          ),
+                  ),
+                ),
               ),
+              if (showAnimationBox) const AnimationBox(),
             ],
-          )
+          ),
         ],
       ),
     );
   }
 }
-
-// import 'package:flutter/material.dart';
-// import 'package:flutter_hackathon_team_a/pages/game/widgets/background.dart';
-// import 'package:flutter_hooks/flutter_hooks.dart';
-// import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-// class DetectionPage extends HookConsumerWidget {
-//   const DetectionPage({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final positionValue = useState<double>(1000);
-//     const double imageSize = 200;
-
-//     useEffect(() {
-//       positionValue.value = 0;
-
-//       return null;
-//     }, []);
-
-//     return Background(
-//       widget: Column(
-//         children: [
-//           const Text("検中"),
-//           Expanded(
-//             child: Center(
-//               child: Stack(
-//                 clipBehavior: Clip.none,
-//                 alignment: Alignment.center,
-//                 children: [
-//                   Container(
-//                     color: Colors.blue,
-//                     width: imageSize * 2 + 100,
-//                   ),
-//                   Positioned(
-//                     left: 0,
-//                     child: Row(
-//                       children: [
-//                         Image.asset(
-//                           "assets/hard_02.png",
-//                           width: imageSize,
-//                           height: imageSize,
-//                         ),
-//                         Expanded(
-//                           child: AnimatedContainer(
-//                             duration: const Duration(seconds: 10),
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                   Positioned(
-//                     right: 0,
-//                     child: Row(
-//                       children: [
-//                         Expanded(
-//                           child: AnimatedContainer(
-//                             color: Colors.red,
-//                             duration: const Duration(seconds: 10),
-//                           ),
-//                         ),
-//                         Image.asset(
-//                           "assets/hard_02.png",
-//                           width: imageSize,
-//                           height: imageSize,
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
