@@ -3,6 +3,7 @@ import 'package:flutter_hackathon_team_a/features/game.dart';
 import 'package:flutter_hackathon_team_a/features/game_state.dart';
 import 'package:flutter_hackathon_team_a/pages/game/widgets/background.dart';
 import 'package:flutter_hackathon_team_a/router/router.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
@@ -14,6 +15,7 @@ class ResultPage extends HookConsumerWidget {
     final state = ref.watch(gameProvider);
     final diffImg = state.levelType?.imagePath[0];
     final defaultImg = state.levelType?.imagePath[1];
+    final diffPointsList = useMemoized(() => state.diffPoints.entries.toList());
 
     return Scaffold(
       body: Background(
@@ -27,15 +29,48 @@ class ResultPage extends HookConsumerWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const Text(
+                      "正解は...",
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
                     Row(
                       children: [
-                        SizedBox(
-                          width: 120,
-                          height: 120,
-                          child: Image.asset(
-                            diffImg ?? "assets/woman.png",
-                            fit: BoxFit.contain,
-                          ),
+                        Stack(
+                          children: [
+                            SizedBox(
+                              width: 120,
+                              height: 120,
+                              child: Image.asset(
+                                diffImg ?? "assets/woman.png",
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                            ...diffPointsList
+                                .map(
+                                  (e) => Positioned(
+                                    left: e.key.minX,
+                                    top: e.key.minY,
+                                    child: Container(
+                                      width: 25,
+                                      height: 25,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        border: Border.all(
+                                            color: state.diffPoints[e.key]!
+                                                ? Colors.red
+                                                : Colors.transparent,
+                                            width: 5),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                          ],
                         ),
                         const SizedBox(width: 8),
                         SizedBox(
@@ -48,183 +83,156 @@ class ResultPage extends HookConsumerWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 18),
-                    const Text(
-                      "違う箇所",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w100,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    const Text(
-                      "ピアス",
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const Text(
-                      "アイメイク",
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const Text(
-                      "髪型",
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
                   ],
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "最高の彼氏",
-                      style: TextStyle(
-                        fontSize: 38,
-                        fontWeight: FontWeight.w700,
+                SizedBox(
+                  width: 260,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "最高の彼氏",
+                        style: TextStyle(
+                          fontSize: 38,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 240,
-                      child: Divider(
-                        thickness: 1,
-                        color: Colors.black,
+                      const SizedBox(
+                        width: 260,
+                        child: Divider(
+                          thickness: 1,
+                          color: Colors.black,
+                        ),
                       ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          "パーフェクトボーナス",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w100,
-                          ),
-                        ),
-                        Text(
-                          state.result.hasPerfectBonus ? "あり" : "なし",
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w100,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          "難易度ボーナス",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w100,
-                          ),
-                        ),
-                        Text(
-                          state.result.hasLevelBonus ? "あり" : "なし",
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w100,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          "お手つき",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w100,
-                          ),
-                        ),
-                        Text(
-                          "${state.result.wrongTouchingNum}回",
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w100,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          "残り時間",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w100,
-                          ),
-                        ),
-                        Text(
-                          "${state.result.remainingTime}秒",
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w100,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 240,
-                      child: Divider(
-                        thickness: 1,
-                        color: Colors.black,
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          "スコア",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w100,
-                          ),
-                        ),
-                        Text(
-                          NumberFormat("#,###.0")
-                              .format(state.result.totalScore),
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w100,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        InkWell(
-                          onTap: () =>
-                              Navigator.pushNamed(context, RouteName.top.name),
-                          child: SizedBox(
-                            height: 40,
-                            width: 40,
-                            child: Image.asset(
-                              "assets/dash.png",
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "パーフェクトボーナス",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w100,
                             ),
                           ),
-                        ),
-                        const SizedBox(width: 8),
-                        const Text(
-                          'Topに戻る',
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
+                          Text(
+                            state.result.hasPerfectBonus ? "あり" : "なし",
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w100,
+                            ),
                           ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "難易度ボーナス",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w100,
+                            ),
+                          ),
+                          Text(
+                            state.result.hasLevelBonus ? "あり" : "なし",
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w100,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "お手つき",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w100,
+                            ),
+                          ),
+                          Text(
+                            "${state.result.wrongTouchingNum}回",
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w100,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "残り時間",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w100,
+                            ),
+                          ),
+                          Text(
+                            "${state.result.remainingTime}秒",
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w100,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        width: 260,
+                        child: Divider(
+                          thickness: 1,
+                          color: Colors.black,
                         ),
-                      ],
-                    ),
-                  ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "スコア",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w100,
+                            ),
+                          ),
+                          Text(
+                            NumberFormat("#,###.0")
+                                .format(state.result.totalScore),
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w100,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      InkWell(
+                        onTap: () =>
+                            Navigator.pushNamed(context, RouteName.top.name),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              height: 40,
+                              width: 40,
+                              child: Image.asset(
+                                "assets/dash.png",
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            const Text(
+                              'Topに戻る',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
