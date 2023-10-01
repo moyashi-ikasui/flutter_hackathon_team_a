@@ -15,8 +15,8 @@ class GamePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(gameProvider);
-    final diffImg = state.levelType?.imagePath[0];
-    final defaultImg = state.levelType?.imagePath[1];
+    final diffImg = state.image1;
+    final defaultImg = state.image2;
 
     final diffPointsList = useMemoized(() => state.diffPoints.entries.toList());
 
@@ -50,8 +50,8 @@ class GamePage extends HookConsumerWidget {
                     SizedBox(
                       width: 200,
                       height: 200,
-                      child: Image.asset(
-                        diffImg ?? "assets/woman.png",
+                      child: Image.memory(
+                        diffImg!,
                         fit: BoxFit.contain,
                       ),
                     ),
@@ -93,8 +93,8 @@ class GamePage extends HookConsumerWidget {
                 SizedBox(
                   width: 200,
                   height: 200,
-                  child: Image.asset(
-                    defaultImg ?? "assets/woman.png",
+                  child: Image.memory(
+                    defaultImg!,
                     fit: BoxFit.contain,
                   ),
                 ),

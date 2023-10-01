@@ -1,6 +1,8 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hackathon_team_a/constants/const.dart';
 import 'package:flutter_hackathon_team_a/features/game_end_type.dart';
 import 'package:flutter_hackathon_team_a/features/game_state.dart';
@@ -110,7 +112,7 @@ class Game extends AutoDisposeNotifier<GameState> {
     state.animationController!.forward(from: fixedNewValue);
   }
 
-  void updateLevelType(LevelType value) {
+  Future<void> updateLevelType(LevelType value) {
     state = state.copyWith(levelType: value);
     // diffPointsの値を変える
     if (value == LevelType.easy) {
@@ -162,11 +164,24 @@ class Game extends AutoDisposeNotifier<GameState> {
         }),
       ));
     }
+    return imagePath().then((value) {
+      state = state.copyWith(
+        image1: value[0],
+        image2: value[1],
+      );
+    });
   }
 
-  Future<void> uploadOriginal(File file1, File file2) {
+  Future<void> uploadOriginal(File file1, File file2) async {
+    final result =
+        await Future.wait([file1.readAsBytes(), file2.readAsBytes()]);
     return diffImage(file1, file2).then((value) {
-      state = state.copyWith(originalDiffPoints: value);
+      print(inspect(value));
+      state = state.copyWith(
+        originalDiffPoints: value,
+        originalImage1: result[0],
+        originalImage2: result[1],
+      );
     });
   }
 
@@ -262,6 +277,38 @@ class Game extends AutoDisposeNotifier<GameState> {
     }).toList();
   }
 
+  Future<List<Uint8List>> imagePath() async {
+    rootBundle.load('assets/easy_01.png');
+
+    rootBundle.load('assets/hard_02.png');
+
+    switch (state.levelType!) {
+      case LevelType.easy:
+        return [
+          await rootBundle
+              .load('assets/easy_01.png')
+              .then((value) => value.buffer.asUint8List()),
+          await rootBundle
+              .load('assets/easy_02.png')
+              .then((value) => value.buffer.asUint8List()),
+        ];
+      case LevelType.hard:
+        return [
+          await rootBundle
+              .load('assets/hard_01.png')
+              .then((value) => value.buffer.asUint8List()),
+          await rootBundle
+              .load('assets/hard_02.png')
+              .then((value) => value.buffer.asUint8List()),
+        ];
+      case LevelType.original:
+        return [
+          state.originalImage1!,
+          state.originalImage2!,
+        ];
+    }
+  }
+
   @override
   GameState build() {
     // setupPlayer().then((value) {
@@ -275,6 +322,10 @@ class Game extends AutoDisposeNotifier<GameState> {
     });
 
     return GameState(
+      image1: null,
+      image2: null,
+      originalImage1: null,
+      originalImage2: null,
       originalDiffPoints: [],
       diffPoints: Map.from({}),
       wrongTouchingNum: 0,

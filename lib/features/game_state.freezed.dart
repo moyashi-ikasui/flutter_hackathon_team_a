@@ -18,6 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$GameState {
   Map<TapPoint, bool> get diffPoints => throw _privateConstructorUsedError;
   List<TapPoint> get originalDiffPoints => throw _privateConstructorUsedError;
+  Uint8List? get originalImage1 => throw _privateConstructorUsedError;
+  Uint8List? get originalImage2 => throw _privateConstructorUsedError;
   AnimationController? get animationController =>
       throw _privateConstructorUsedError;
   LevelType? get levelType => throw _privateConstructorUsedError;
@@ -25,6 +27,8 @@ mixin _$GameState {
   Result get result => throw _privateConstructorUsedError;
   BuildContext? get context => throw _privateConstructorUsedError;
   bool get isAngry => throw _privateConstructorUsedError;
+  Uint8List? get image1 => throw _privateConstructorUsedError;
+  Uint8List? get image2 => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $GameStateCopyWith<GameState> get copyWith =>
@@ -39,12 +43,16 @@ abstract class $GameStateCopyWith<$Res> {
   $Res call(
       {Map<TapPoint, bool> diffPoints,
       List<TapPoint> originalDiffPoints,
+      Uint8List? originalImage1,
+      Uint8List? originalImage2,
       AnimationController? animationController,
       LevelType? levelType,
       int wrongTouchingNum,
       Result result,
       BuildContext? context,
-      bool isAngry});
+      bool isAngry,
+      Uint8List? image1,
+      Uint8List? image2});
 }
 
 /// @nodoc
@@ -62,12 +70,16 @@ class _$GameStateCopyWithImpl<$Res, $Val extends GameState>
   $Res call({
     Object? diffPoints = null,
     Object? originalDiffPoints = null,
+    Object? originalImage1 = freezed,
+    Object? originalImage2 = freezed,
     Object? animationController = freezed,
     Object? levelType = freezed,
     Object? wrongTouchingNum = null,
     Object? result = null,
     Object? context = freezed,
     Object? isAngry = null,
+    Object? image1 = freezed,
+    Object? image2 = freezed,
   }) {
     return _then(_value.copyWith(
       diffPoints: null == diffPoints
@@ -78,6 +90,14 @@ class _$GameStateCopyWithImpl<$Res, $Val extends GameState>
           ? _value.originalDiffPoints
           : originalDiffPoints // ignore: cast_nullable_to_non_nullable
               as List<TapPoint>,
+      originalImage1: freezed == originalImage1
+          ? _value.originalImage1
+          : originalImage1 // ignore: cast_nullable_to_non_nullable
+              as Uint8List?,
+      originalImage2: freezed == originalImage2
+          ? _value.originalImage2
+          : originalImage2 // ignore: cast_nullable_to_non_nullable
+              as Uint8List?,
       animationController: freezed == animationController
           ? _value.animationController
           : animationController // ignore: cast_nullable_to_non_nullable
@@ -102,6 +122,14 @@ class _$GameStateCopyWithImpl<$Res, $Val extends GameState>
           ? _value.isAngry
           : isAngry // ignore: cast_nullable_to_non_nullable
               as bool,
+      image1: freezed == image1
+          ? _value.image1
+          : image1 // ignore: cast_nullable_to_non_nullable
+              as Uint8List?,
+      image2: freezed == image2
+          ? _value.image2
+          : image2 // ignore: cast_nullable_to_non_nullable
+              as Uint8List?,
     ) as $Val);
   }
 }
@@ -116,12 +144,16 @@ abstract class _$$_GameStateCopyWith<$Res> implements $GameStateCopyWith<$Res> {
   $Res call(
       {Map<TapPoint, bool> diffPoints,
       List<TapPoint> originalDiffPoints,
+      Uint8List? originalImage1,
+      Uint8List? originalImage2,
       AnimationController? animationController,
       LevelType? levelType,
       int wrongTouchingNum,
       Result result,
       BuildContext? context,
-      bool isAngry});
+      bool isAngry,
+      Uint8List? image1,
+      Uint8List? image2});
 }
 
 /// @nodoc
@@ -137,12 +169,16 @@ class __$$_GameStateCopyWithImpl<$Res>
   $Res call({
     Object? diffPoints = null,
     Object? originalDiffPoints = null,
+    Object? originalImage1 = freezed,
+    Object? originalImage2 = freezed,
     Object? animationController = freezed,
     Object? levelType = freezed,
     Object? wrongTouchingNum = null,
     Object? result = null,
     Object? context = freezed,
     Object? isAngry = null,
+    Object? image1 = freezed,
+    Object? image2 = freezed,
   }) {
     return _then(_$_GameState(
       diffPoints: null == diffPoints
@@ -153,6 +189,14 @@ class __$$_GameStateCopyWithImpl<$Res>
           ? _value._originalDiffPoints
           : originalDiffPoints // ignore: cast_nullable_to_non_nullable
               as List<TapPoint>,
+      originalImage1: freezed == originalImage1
+          ? _value.originalImage1
+          : originalImage1 // ignore: cast_nullable_to_non_nullable
+              as Uint8List?,
+      originalImage2: freezed == originalImage2
+          ? _value.originalImage2
+          : originalImage2 // ignore: cast_nullable_to_non_nullable
+              as Uint8List?,
       animationController: freezed == animationController
           ? _value.animationController
           : animationController // ignore: cast_nullable_to_non_nullable
@@ -177,6 +221,14 @@ class __$$_GameStateCopyWithImpl<$Res>
           ? _value.isAngry
           : isAngry // ignore: cast_nullable_to_non_nullable
               as bool,
+      image1: freezed == image1
+          ? _value.image1
+          : image1 // ignore: cast_nullable_to_non_nullable
+              as Uint8List?,
+      image2: freezed == image2
+          ? _value.image2
+          : image2 // ignore: cast_nullable_to_non_nullable
+              as Uint8List?,
     ));
   }
 }
@@ -187,12 +239,16 @@ class _$_GameState extends _GameState {
   const _$_GameState(
       {required final Map<TapPoint, bool> diffPoints,
       required final List<TapPoint> originalDiffPoints,
+      required this.originalImage1,
+      required this.originalImage2,
       this.animationController,
       this.levelType,
       required this.wrongTouchingNum,
       required this.result,
       this.context,
-      required this.isAngry})
+      required this.isAngry,
+      required this.image1,
+      required this.image2})
       : _diffPoints = diffPoints,
         _originalDiffPoints = originalDiffPoints,
         super._();
@@ -215,6 +271,10 @@ class _$_GameState extends _GameState {
   }
 
   @override
+  final Uint8List? originalImage1;
+  @override
+  final Uint8List? originalImage2;
+  @override
   final AnimationController? animationController;
   @override
   final LevelType? levelType;
@@ -226,10 +286,14 @@ class _$_GameState extends _GameState {
   final BuildContext? context;
   @override
   final bool isAngry;
+  @override
+  final Uint8List? image1;
+  @override
+  final Uint8List? image2;
 
   @override
   String toString() {
-    return 'GameState(diffPoints: $diffPoints, originalDiffPoints: $originalDiffPoints, animationController: $animationController, levelType: $levelType, wrongTouchingNum: $wrongTouchingNum, result: $result, context: $context, isAngry: $isAngry)';
+    return 'GameState(diffPoints: $diffPoints, originalDiffPoints: $originalDiffPoints, originalImage1: $originalImage1, originalImage2: $originalImage2, animationController: $animationController, levelType: $levelType, wrongTouchingNum: $wrongTouchingNum, result: $result, context: $context, isAngry: $isAngry, image1: $image1, image2: $image2)';
   }
 
   @override
@@ -241,6 +305,10 @@ class _$_GameState extends _GameState {
                 .equals(other._diffPoints, _diffPoints) &&
             const DeepCollectionEquality()
                 .equals(other._originalDiffPoints, _originalDiffPoints) &&
+            const DeepCollectionEquality()
+                .equals(other.originalImage1, originalImage1) &&
+            const DeepCollectionEquality()
+                .equals(other.originalImage2, originalImage2) &&
             (identical(other.animationController, animationController) ||
                 other.animationController == animationController) &&
             (identical(other.levelType, levelType) ||
@@ -249,7 +317,9 @@ class _$_GameState extends _GameState {
                 other.wrongTouchingNum == wrongTouchingNum) &&
             (identical(other.result, result) || other.result == result) &&
             (identical(other.context, context) || other.context == context) &&
-            (identical(other.isAngry, isAngry) || other.isAngry == isAngry));
+            (identical(other.isAngry, isAngry) || other.isAngry == isAngry) &&
+            const DeepCollectionEquality().equals(other.image1, image1) &&
+            const DeepCollectionEquality().equals(other.image2, image2));
   }
 
   @override
@@ -257,12 +327,16 @@ class _$_GameState extends _GameState {
       runtimeType,
       const DeepCollectionEquality().hash(_diffPoints),
       const DeepCollectionEquality().hash(_originalDiffPoints),
+      const DeepCollectionEquality().hash(originalImage1),
+      const DeepCollectionEquality().hash(originalImage2),
       animationController,
       levelType,
       wrongTouchingNum,
       result,
       context,
-      isAngry);
+      isAngry,
+      const DeepCollectionEquality().hash(image1),
+      const DeepCollectionEquality().hash(image2));
 
   @JsonKey(ignore: true)
   @override
@@ -275,18 +349,26 @@ abstract class _GameState extends GameState {
   const factory _GameState(
       {required final Map<TapPoint, bool> diffPoints,
       required final List<TapPoint> originalDiffPoints,
+      required final Uint8List? originalImage1,
+      required final Uint8List? originalImage2,
       final AnimationController? animationController,
       final LevelType? levelType,
       required final int wrongTouchingNum,
       required final Result result,
       final BuildContext? context,
-      required final bool isAngry}) = _$_GameState;
+      required final bool isAngry,
+      required final Uint8List? image1,
+      required final Uint8List? image2}) = _$_GameState;
   const _GameState._() : super._();
 
   @override
   Map<TapPoint, bool> get diffPoints;
   @override
   List<TapPoint> get originalDiffPoints;
+  @override
+  Uint8List? get originalImage1;
+  @override
+  Uint8List? get originalImage2;
   @override
   AnimationController? get animationController;
   @override
@@ -299,6 +381,10 @@ abstract class _GameState extends GameState {
   BuildContext? get context;
   @override
   bool get isAngry;
+  @override
+  Uint8List? get image1;
+  @override
+  Uint8List? get image2;
   @override
   @JsonKey(ignore: true)
   _$$_GameStateCopyWith<_$_GameState> get copyWith =>

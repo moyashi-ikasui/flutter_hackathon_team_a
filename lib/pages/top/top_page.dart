@@ -12,6 +12,15 @@ class TopPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(gameProvider);
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.pushNamed(context, RouteName.detection.name),
+        child: Container(
+          child: const Text(
+            "解析",
+            style: TextStyle(fontSize: 15),
+          ),
+        ),
+      ),
       body: Background(
         widget: Center(
           child: Column(

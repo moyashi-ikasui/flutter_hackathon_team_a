@@ -24,11 +24,17 @@ class DetectionPage extends HookConsumerWidget {
     final image1 = useState<File?>(null);
     final image2 = useState<File?>(null);
 
-    void finish() {
-      ref
-          .read(gameProvider.notifier)
-          .uploadOriginal(image1.value!, image2.value!);
-    }
+    useEffect(() {
+      if (image1.value != null && image2.value != null) {
+        ref
+            .read(gameProvider.notifier)
+            .uploadOriginal(image1.value!, image2.value!)
+            .then((value) {
+          Navigator.pop(context);
+        });
+      }
+      return null;
+    }, [image1.value, image2.value]);
 
     return Background(
       widget: Column(

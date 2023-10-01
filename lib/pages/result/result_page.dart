@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hackathon_team_a/features/game.dart';
-import 'package:flutter_hackathon_team_a/features/game_state.dart';
 import 'package:flutter_hackathon_team_a/pages/game/widgets/background.dart';
 import 'package:flutter_hackathon_team_a/router/router.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -13,9 +12,9 @@ class ResultPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(gameProvider);
-    final diffImg = state.levelType?.imagePath[0];
-    final defaultImg = state.levelType?.imagePath[1];
     final diffPointsList = useMemoized(() => state.diffPoints.entries.toList());
+    final diffImg = state.image1;
+    final defaultImg = state.image2;
 
     return Scaffold(
       body: Background(
@@ -43,8 +42,8 @@ class ResultPage extends HookConsumerWidget {
                             SizedBox(
                               width: 120,
                               height: 120,
-                              child: Image.asset(
-                                diffImg ?? "assets/woman.png",
+                              child: Image.memory(
+                                diffImg!,
                                 fit: BoxFit.contain,
                               ),
                             ),
@@ -76,8 +75,8 @@ class ResultPage extends HookConsumerWidget {
                         SizedBox(
                           width: 120,
                           height: 120,
-                          child: Image.asset(
-                            defaultImg ?? "assets/woman.png",
+                          child: Image.memory(
+                            defaultImg!,
                             fit: BoxFit.contain,
                           ),
                         ),
