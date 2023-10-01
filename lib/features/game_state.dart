@@ -101,9 +101,11 @@ class Result {
   double get levelBonus {
     switch (level) {
       case LevelType.easy:
-        return 1;
+        return 1.0;
       case LevelType.hard:
         return 1.3;
+      case LevelType.original:
+        return 1.5;
     }
   }
 
