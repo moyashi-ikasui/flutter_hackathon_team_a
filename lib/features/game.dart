@@ -122,6 +122,10 @@ class Game extends AutoDisposeNotifier<GameState> {
 
   Future<void> updateLevelType(LevelType value) {
     state = state.copyWith(levelType: value);
+    if (state.animationController != null) {
+      // アニメーションを初期化
+      state.animationController!.stop();
+    }
     // diffPointsの値を変える
     if (value == LevelType.easy) {
       state = state.copyWith(
