@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hackathon_team_a/pages/detection/widgets/animation_box.dart';
 import 'package:flutter_hackathon_team_a/features/game.dart';
+import 'package:flutter_hackathon_team_a/pages/detection/widgets/detection_done_dialog/detection_end_dialog.dart';
 import 'package:flutter_hackathon_team_a/pages/game/widgets/background.dart';
 import 'package:flutter_hackathon_team_a/util/size_helper.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -26,10 +27,7 @@ class DetectionPageState extends ConsumerState<DetectionPage> {
     setState(() {
       showAnimationBox = true;
     });
-    await Future.delayed(const Duration(milliseconds: 6000));
-    setState(() {
-      // isAnalyzing = false;
-    });
+    await Future.delayed(const Duration(milliseconds: 1000));
   }
 
   bool isAnalyzing = false;
@@ -46,7 +44,14 @@ class DetectionPageState extends ConsumerState<DetectionPage> {
             .read(gameProvider.notifier)
             .uploadOriginal(image1.value!, image2.value!)
             .then((value) {
-          Navigator.pop(context);
+          runAnalyzeAnimation().then((value) {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return const DetectionEndDialog();
+              },
+            );
+          });
         });
       }
       return null;
@@ -140,7 +145,6 @@ class DetectionPageState extends ConsumerState<DetectionPage> {
               if (showAnimationBox) const AnimationBox(),
             ],
           ),
-          FloatingActionButton(onPressed: runAnalyzeAnimation),
         ],
       ),
     );
