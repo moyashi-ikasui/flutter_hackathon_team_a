@@ -28,7 +28,7 @@ class DetectionPageState extends ConsumerState<DetectionPage> {
     setState(() {
       showAnimationBox = true;
     });
-    await Future.delayed(const Duration(milliseconds: 1000));
+    await Future.delayed(const Duration(milliseconds: 5000));
     ref.read(gameProvider.notifier).analyzingPlayer.stop();
   }
 

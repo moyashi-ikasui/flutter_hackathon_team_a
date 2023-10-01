@@ -63,39 +63,32 @@ class _AnimationBoxState extends State<AnimationBox> {
         children: [
           // X軸線
           if (showHorizantalLine)
-            SizedBox(
-              width: imageSize,
-              height: imageSize,
-              child: AnimatedAlign(
-                key: const ValueKey('horizantal'),
-                curve: Curves.easeOut,
-                alignment: moveHorizantalLine
-                    ? Alignment.topCenter
-                    : Alignment.bottomCenter,
-                duration: const Duration(milliseconds: 500),
-                child: Container(
-                  width: imageSize,
-                  height: 2,
-                  color: Colors.red,
-                ),
+            AnimatedAlign(
+              key: const ValueKey('horizantal'),
+              curve: Curves.easeOut,
+              alignment: moveHorizantalLine
+                  ? Alignment.topCenter
+                  : Alignment.bottomCenter,
+              duration: const Duration(milliseconds: 500),
+              child: Container(
+                width: imageSize,
+                height: 2,
+                color: Colors.red,
               ),
             ),
+
           if (showVerticalLine)
-            SizedBox(
-              width: imageSize,
-              height: imageSize,
-              child: AnimatedAlign(
-                key: const ValueKey('vertical'),
-                curve: Curves.easeOut,
-                alignment: moveVerticalLine
-                    ? Alignment.centerLeft
-                    : Alignment.centerRight,
-                duration: const Duration(milliseconds: 500),
-                child: Container(
-                  height: imageSize,
-                  width: 2,
-                  color: Colors.red,
-                ),
+            AnimatedAlign(
+              key: const ValueKey('vertical'),
+              curve: Curves.easeOut,
+              alignment: moveVerticalLine
+                  ? Alignment.centerLeft
+                  : Alignment.centerRight,
+              duration: const Duration(milliseconds: 500),
+              child: Container(
+                height: imageSize,
+                width: 2,
+                color: Colors.red,
               ),
             ),
           if (dotPositions.isNotEmpty)
