@@ -1,12 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hackathon_team_a/constants/const.dart';
 import 'package:flutter_hackathon_team_a/features/game_end_type.dart';
 import 'package:flutter_hackathon_team_a/features/game_state.dart';
 import 'package:flutter_hackathon_team_a/pages/game/widgets/game_end_dialog/game_end_dialog.dart';
-import 'package:flutter_hackathon_team_a/main.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:collection/collection.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:image/image.dart' as img;
 
 class Game extends AutoDisposeNotifier<GameState> {
   Game();
@@ -114,15 +118,15 @@ class Game extends AutoDisposeNotifier<GameState> {
       state = state.copyWith(
           diffPoints: Map.from({
         const TapPoint(
-            offset: Offset(120, 15),
+            center: Offset(120, 15),
             verticalSide: 30,
             horizontalSide: 15): false,
         const TapPoint(
-            offset: Offset(120, 50),
+            center: Offset(120, 50),
             verticalSide: 30,
             horizontalSide: 15): false,
         const TapPoint(
-            offset: Offset(120, 110),
+            center: Offset(120, 110),
             verticalSide: 30,
             horizontalSide: 20): false,
       }));
@@ -131,23 +135,40 @@ class Game extends AutoDisposeNotifier<GameState> {
       state = state.copyWith(
         diffPoints: Map.from({
           const TapPoint(
-              offset: Offset(140, 40),
+              center: Offset(140, 40),
               verticalSide: 35,
               horizontalSide: 10): false,
           const TapPoint(
-              offset: Offset(120, 64),
+              center: Offset(120, 64),
               verticalSide: 35,
               horizontalSide: 10): false,
           const TapPoint(
-              offset: Offset(140, 90),
+              center: Offset(140, 90),
               verticalSide: 10,
               horizontalSide: 15): false,
           const TapPoint(
-              offset: Offset(105, 95),
+              center: Offset(105, 95),
               verticalSide: 15,
               horizontalSide: 10): false,
         }),
       );
+    }
+    if (value == LevelType.original) {
+      Future.wait([
+        getImageFileFromAssets('hard_01.png'),
+        getImageFileFromAssets('hard_02.png'),
+      ]).then((e) => {
+            diffImage(e[0], e[1]).then((value) {
+              state = state.copyWith(diffPoints: Map.fromEntries(
+                value.map((e) {
+                  return MapEntry(
+                    e,
+                    false,
+                  );
+                }),
+              ));
+            }),
+          });
     }
   }
 
@@ -165,31 +186,99 @@ class Game extends AutoDisposeNotifier<GameState> {
     );
   }
 
+  List<List<img.Point>> findConnectedComponents(List<img.Point> points) {
+    List<List<img.Point>> components = [];
+    Set<img.Point> unusedPoints = points.toSet();
+
+    while (unusedPoints.isNotEmpty) {
+      var startPoint = unusedPoints.first;
+      var component = <img.Point>[];
+      var stack = [startPoint];
+
+      while (stack.isNotEmpty) {
+        var current = stack.removeLast();
+        if (unusedPoints.contains(current)) {
+          unusedPoints.remove(current);
+          component.add(current);
+
+          // 隣接する点をスタックに追加
+          for (var dx = -1; dx <= 1; dx++) {
+            for (var dy = -1; dy <= 1; dy++) {
+              var neighbor =
+                  img.Point(current.x + dx, current.y + dy); // 隣接ポイント
+              if (unusedPoints.contains(neighbor)) {
+                stack.add(neighbor);
+              }
+            }
+          }
+        }
+      }
+
+      components.add(component);
+    }
+
+    return components;
+  }
+
+  Future<List<TapPoint>> diffImage(File imageFile1, File imageFile2) async {
+    img.Image? image1 = img.decodeImage(imageFile1.readAsBytesSync());
+    img.Image? image2 = img.decodeImage(imageFile2.readAsBytesSync());
+
+    List<img.Point> changedPoints = []; //
+
+    for (int y = 0; y < image1!.height; y++) {
+      for (int x = 0; x < image1.width; x++) {
+        final pixelColor1 = image1.getPixel(x, y);
+        final pixelColor2 = image2!.getPixel(x, y);
+
+        if (pixelColor1.r != pixelColor2.r ||
+            pixelColor1.g != pixelColor2.g ||
+            pixelColor1.b != pixelColor2.b ||
+            pixelColor1.a != pixelColor2.a) {
+          changedPoints.add(img.Point(x, y));
+        }
+      }
+    }
+
+// 使用例
+    final components = findConnectedComponents(changedPoints);
+
+    return components.map((points) {
+      final maxX = points.reduce((curr, next) => curr.x > next.x ? curr : next);
+      final minX = points.reduce((curr, next) => curr.x < next.x ? curr : next);
+      final maxY = points.reduce((curr, next) => curr.y > next.y ? curr : next);
+      final minY = points.reduce((curr, next) => curr.y < next.y ? curr : next);
+
+      final verticalSide = maxY.y.toDouble() - minY.y.toDouble();
+      final horizontalSide = maxX.x.toDouble() - minX.x.toDouble();
+
+      return TapPoint(
+        center: Offset(
+          minX.x + (horizontalSide / 2),
+          minY.y + (verticalSide / 2),
+        ),
+        verticalSide: verticalSide,
+        horizontalSide: horizontalSide,
+      );
+    }).toList();
+  }
+
+  Future<File> getImageFileFromAssets(String path) async {
+    final byteData = await rootBundle.load('assets/$path');
+
+    final file =
+        File('${(await getApplicationDocumentsDirectory()).path}/$path');
+    await file.writeAsBytes(byteData.buffer
+        .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+
+    return file;
+  }
+
   @override
   GameState build() {
-    diffImage().then((value) {
-      for (var element in value) {
-        element.x;
-        element.y;
-        state = state.copyWith(
-          diffPoints: Map.fromEntries(
-            state.diffPoints.entries.map((e) {
-              return MapEntry(
-                TapPoint(
-                  offset: Offset(element.x.toDouble(), element.y.toDouble()),
-                  verticalSide: 10,
-                  horizontalSide: 10,
-                ),
-                false,
-              );
-            }),
-          ),
-        );
-      }
-    });
-    setupPlayer().then((value) {
-      bgmPlayer.play();
-    });
+    // setupPlayer().then((value) {
+    //   bgmPlayer.play();
+    // });
 
     ref.onDispose(() {
       bgmPlayer.dispose();
