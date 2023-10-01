@@ -84,7 +84,7 @@ class Game extends AutoDisposeNotifier<GameState> {
   }
 
   void startTimer() {
-    bgmPlayer.setPlaySpeed(1);
+    bgmPlayer.play();
     state.animationController!.forward();
     state.animationController!.addListener(() {
       if (!state.isAngry && state.animationController!.value > 0.8) {
@@ -125,6 +125,7 @@ class Game extends AutoDisposeNotifier<GameState> {
     if (state.animationController != null) {
       // アニメーションを初期化
       state.animationController!.reset();
+      bgmPlayer.setPlaySpeed(1.0);
     }
     // diffPointsの値を変える
     if (value == LevelType.easy) {

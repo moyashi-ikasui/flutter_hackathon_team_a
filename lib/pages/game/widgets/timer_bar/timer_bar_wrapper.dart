@@ -29,7 +29,7 @@ class _TimerBarWrapperState extends ConsumerState<TimerBarWrapper>
   Widget build(BuildContext context) {
     final gameState = ref.watch(gameProvider);
     return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text(
           '怒りパラメータ',
