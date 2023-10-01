@@ -124,7 +124,7 @@ class Game extends AutoDisposeNotifier<GameState> {
     state = state.copyWith(levelType: value);
     if (state.animationController != null) {
       // アニメーションを初期化
-      state.animationController!.stop();
+      state.animationController!.reset();
     }
     // diffPointsの値を変える
     if (value == LevelType.easy) {
