@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$GameState {
   Map<TapPoint, bool> get diffPoints => throw _privateConstructorUsedError;
+  List<TapPoint> get originalDiffPoints => throw _privateConstructorUsedError;
   AnimationController? get animationController =>
       throw _privateConstructorUsedError;
   LevelType? get levelType => throw _privateConstructorUsedError;
@@ -37,6 +38,7 @@ abstract class $GameStateCopyWith<$Res> {
   @useResult
   $Res call(
       {Map<TapPoint, bool> diffPoints,
+      List<TapPoint> originalDiffPoints,
       AnimationController? animationController,
       LevelType? levelType,
       int wrongTouchingNum,
@@ -59,6 +61,7 @@ class _$GameStateCopyWithImpl<$Res, $Val extends GameState>
   @override
   $Res call({
     Object? diffPoints = null,
+    Object? originalDiffPoints = null,
     Object? animationController = freezed,
     Object? levelType = freezed,
     Object? wrongTouchingNum = null,
@@ -71,6 +74,10 @@ class _$GameStateCopyWithImpl<$Res, $Val extends GameState>
           ? _value.diffPoints
           : diffPoints // ignore: cast_nullable_to_non_nullable
               as Map<TapPoint, bool>,
+      originalDiffPoints: null == originalDiffPoints
+          ? _value.originalDiffPoints
+          : originalDiffPoints // ignore: cast_nullable_to_non_nullable
+              as List<TapPoint>,
       animationController: freezed == animationController
           ? _value.animationController
           : animationController // ignore: cast_nullable_to_non_nullable
@@ -108,6 +115,7 @@ abstract class _$$_GameStateCopyWith<$Res> implements $GameStateCopyWith<$Res> {
   @useResult
   $Res call(
       {Map<TapPoint, bool> diffPoints,
+      List<TapPoint> originalDiffPoints,
       AnimationController? animationController,
       LevelType? levelType,
       int wrongTouchingNum,
@@ -128,6 +136,7 @@ class __$$_GameStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? diffPoints = null,
+    Object? originalDiffPoints = null,
     Object? animationController = freezed,
     Object? levelType = freezed,
     Object? wrongTouchingNum = null,
@@ -140,6 +149,10 @@ class __$$_GameStateCopyWithImpl<$Res>
           ? _value._diffPoints
           : diffPoints // ignore: cast_nullable_to_non_nullable
               as Map<TapPoint, bool>,
+      originalDiffPoints: null == originalDiffPoints
+          ? _value._originalDiffPoints
+          : originalDiffPoints // ignore: cast_nullable_to_non_nullable
+              as List<TapPoint>,
       animationController: freezed == animationController
           ? _value.animationController
           : animationController // ignore: cast_nullable_to_non_nullable
@@ -173,6 +186,7 @@ class __$$_GameStateCopyWithImpl<$Res>
 class _$_GameState extends _GameState {
   const _$_GameState(
       {required final Map<TapPoint, bool> diffPoints,
+      required final List<TapPoint> originalDiffPoints,
       this.animationController,
       this.levelType,
       required this.wrongTouchingNum,
@@ -180,6 +194,7 @@ class _$_GameState extends _GameState {
       this.context,
       required this.isAngry})
       : _diffPoints = diffPoints,
+        _originalDiffPoints = originalDiffPoints,
         super._();
 
   final Map<TapPoint, bool> _diffPoints;
@@ -188,6 +203,15 @@ class _$_GameState extends _GameState {
     if (_diffPoints is EqualUnmodifiableMapView) return _diffPoints;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_diffPoints);
+  }
+
+  final List<TapPoint> _originalDiffPoints;
+  @override
+  List<TapPoint> get originalDiffPoints {
+    if (_originalDiffPoints is EqualUnmodifiableListView)
+      return _originalDiffPoints;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_originalDiffPoints);
   }
 
   @override
@@ -205,7 +229,7 @@ class _$_GameState extends _GameState {
 
   @override
   String toString() {
-    return 'GameState(diffPoints: $diffPoints, animationController: $animationController, levelType: $levelType, wrongTouchingNum: $wrongTouchingNum, result: $result, context: $context, isAngry: $isAngry)';
+    return 'GameState(diffPoints: $diffPoints, originalDiffPoints: $originalDiffPoints, animationController: $animationController, levelType: $levelType, wrongTouchingNum: $wrongTouchingNum, result: $result, context: $context, isAngry: $isAngry)';
   }
 
   @override
@@ -215,6 +239,8 @@ class _$_GameState extends _GameState {
             other is _$_GameState &&
             const DeepCollectionEquality()
                 .equals(other._diffPoints, _diffPoints) &&
+            const DeepCollectionEquality()
+                .equals(other._originalDiffPoints, _originalDiffPoints) &&
             (identical(other.animationController, animationController) ||
                 other.animationController == animationController) &&
             (identical(other.levelType, levelType) ||
@@ -230,6 +256,7 @@ class _$_GameState extends _GameState {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_diffPoints),
+      const DeepCollectionEquality().hash(_originalDiffPoints),
       animationController,
       levelType,
       wrongTouchingNum,
@@ -247,6 +274,7 @@ class _$_GameState extends _GameState {
 abstract class _GameState extends GameState {
   const factory _GameState(
       {required final Map<TapPoint, bool> diffPoints,
+      required final List<TapPoint> originalDiffPoints,
       final AnimationController? animationController,
       final LevelType? levelType,
       required final int wrongTouchingNum,
@@ -257,6 +285,8 @@ abstract class _GameState extends GameState {
 
   @override
   Map<TapPoint, bool> get diffPoints;
+  @override
+  List<TapPoint> get originalDiffPoints;
   @override
   AnimationController? get animationController;
   @override

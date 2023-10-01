@@ -67,6 +67,25 @@ class TopPage extends HookConsumerWidget {
                           style: const TextStyle(fontSize: 15),
                         ),
                       ),
+                      const SizedBox(width: 30),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.orange,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                        onPressed: () {
+                          ref
+                              .read(gameProvider.notifier)
+                              .updateLevelType(LevelType.original);
+                          Navigator.pushNamed(context, RouteName.game.name);
+                        },
+                        child: Text(
+                          LevelType.original.name,
+                          style: const TextStyle(fontSize: 15),
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(width: 30),

@@ -7,6 +7,7 @@ part 'game_state.freezed.dart';
 class GameState with _$GameState {
   const factory GameState({
     required Map<TapPoint, bool> diffPoints,
+    required List<TapPoint> originalDiffPoints,
     AnimationController? animationController,
     LevelType? levelType,
     required int wrongTouchingNum,
@@ -105,7 +106,7 @@ class Result {
       case LevelType.hard:
         return 1.3;
       case LevelType.original:
-        return 1.5;
+        return 1;
     }
   }
 

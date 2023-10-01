@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_hackathon_team_a/constants/const.dart';
 import 'package:flutter_hackathon_team_a/features/game_end_type.dart';
 import 'package:flutter_hackathon_team_a/features/game_state.dart';
@@ -9,7 +8,6 @@ import 'package:flutter_hackathon_team_a/pages/game/widgets/game_end_dialog/game
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:collection/collection.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:image/image.dart' as img;
 
 class Game extends AutoDisposeNotifier<GameState> {
@@ -155,22 +153,21 @@ class Game extends AutoDisposeNotifier<GameState> {
       );
     }
     if (value == LevelType.original) {
-      Future.wait([
-        getImageFileFromAssets('hard_01.png'),
-        getImageFileFromAssets('hard_02.png'),
-      ]).then((e) => {
-            diffImage(e[0], e[1]).then((value) {
-              state = state.copyWith(diffPoints: Map.fromEntries(
-                value.map((e) {
-                  return MapEntry(
-                    e,
-                    false,
-                  );
-                }),
-              ));
-            }),
-          });
+      state = state.copyWith(diffPoints: Map.fromEntries(
+        state.originalDiffPoints.map((e) {
+          return MapEntry(
+            e,
+            false,
+          );
+        }),
+      ));
     }
+  }
+
+  Future<void> uploadOriginal(File file1, File file2) {
+    return diffImage(file1, file2).then((value) {
+      state = state.copyWith(originalDiffPoints: value);
+    });
   }
 
   void finishGame() {
@@ -265,17 +262,6 @@ class Game extends AutoDisposeNotifier<GameState> {
     }).toList();
   }
 
-  Future<File> getImageFileFromAssets(String path) async {
-    final byteData = await rootBundle.load('assets/$path');
-
-    final file =
-        File('${(await getApplicationDocumentsDirectory()).path}/$path');
-    await file.writeAsBytes(byteData.buffer
-        .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
-
-    return file;
-  }
-
   @override
   GameState build() {
     // setupPlayer().then((value) {
@@ -289,6 +275,7 @@ class Game extends AutoDisposeNotifier<GameState> {
     });
 
     return GameState(
+      originalDiffPoints: [],
       diffPoints: Map.from({}),
       wrongTouchingNum: 0,
       result: const Result(

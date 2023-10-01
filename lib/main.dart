@@ -28,7 +28,7 @@ class MyApp extends HookConsumerWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: RouteName.detection.name,
+      initialRoute: RouteName.top.name,
       routes: ref.watch(routerProvider),
       home: const TopPage(),
     );
