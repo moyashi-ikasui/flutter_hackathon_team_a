@@ -17,6 +17,7 @@ class Game extends AutoDisposeNotifier<GameState> {
   final wrongAnswerPlayer = AssetsAudioPlayer();
   final correctAnswerPlayer = AssetsAudioPlayer();
   final bgmPlayer = AssetsAudioPlayer();
+  final analyzingPlayer = AssetsAudioPlayer();
 
   Future<void> setupPlayer() {
     return Future.wait([
@@ -32,6 +33,12 @@ class Game extends AutoDisposeNotifier<GameState> {
       ),
       bgmPlayer.open(
         Audio("assets/sounds/bgm.mp3"),
+        autoStart: false,
+        showNotification: true,
+        loopMode: LoopMode.single,
+      ),
+      analyzingPlayer.open(
+        Audio("assets/sounds/analyzing.mp3"),
         autoStart: false,
         showNotification: true,
         loopMode: LoopMode.single,
@@ -77,6 +84,7 @@ class Game extends AutoDisposeNotifier<GameState> {
   }
 
   void startTimer() {
+    bgmPlayer.play();
     state.animationController!.forward();
     state.animationController!.addListener(() {
       if (!state.isAngry && state.animationController!.value > 0.8) {
@@ -311,14 +319,12 @@ class Game extends AutoDisposeNotifier<GameState> {
 
   @override
   GameState build() {
-    // setupPlayer().then((value) {
-    //   bgmPlayer.play();
-    // });
-
+    setupPlayer();
     ref.onDispose(() {
       bgmPlayer.dispose();
       wrongAnswerPlayer.dispose();
       correctAnswerPlayer.dispose();
+      analyzingPlayer.dispose();
     });
 
     return GameState(
