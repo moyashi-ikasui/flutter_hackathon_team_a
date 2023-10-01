@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hackathon_team_a/pages/detection/widgets/animation_box.dart';
+import 'package:flutter_hackathon_team_a/features/game.dart';
 import 'package:flutter_hackathon_team_a/pages/game/widgets/background.dart';
 import 'package:flutter_hackathon_team_a/util/size_helper.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -38,6 +39,18 @@ class DetectionPageState extends ConsumerState<DetectionPage> {
   Widget build(BuildContext context) {
     final image1 = useState<File?>(null);
     final image2 = useState<File?>(null);
+
+    useEffect(() {
+      if (image1.value != null && image2.value != null) {
+        ref
+            .read(gameProvider.notifier)
+            .uploadOriginal(image1.value!, image2.value!)
+            .then((value) {
+          Navigator.pop(context);
+        });
+      }
+      return null;
+    }, [image1.value, image2.value]);
 
     return Background(
       widget: Column(

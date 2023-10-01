@@ -12,6 +12,15 @@ class TopPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(gameProvider);
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.pushNamed(context, RouteName.detection.name),
+        child: Container(
+          child: const Text(
+            "解析",
+            style: TextStyle(fontSize: 15),
+          ),
+        ),
+      ),
       body: Background(
         widget: Center(
           child: Column(
@@ -64,6 +73,25 @@ class TopPage extends HookConsumerWidget {
                         },
                         child: Text(
                           LevelType.hard.name,
+                          style: const TextStyle(fontSize: 15),
+                        ),
+                      ),
+                      const SizedBox(width: 30),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.orange,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                        onPressed: () {
+                          ref
+                              .read(gameProvider.notifier)
+                              .updateLevelType(LevelType.original);
+                          Navigator.pushNamed(context, RouteName.game.name);
+                        },
+                        child: Text(
+                          LevelType.original.name,
                           style: const TextStyle(fontSize: 15),
                         ),
                       ),

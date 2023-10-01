@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -7,13 +10,19 @@ part 'game_state.freezed.dart';
 class GameState with _$GameState {
   const factory GameState({
     required Map<TapPoint, bool> diffPoints,
+    required List<TapPoint> originalDiffPoints,
+    required Uint8List? originalImage1,
+    required Uint8List? originalImage2,
     AnimationController? animationController,
     LevelType? levelType,
     required int wrongTouchingNum,
     required Result result,
     BuildContext? context,
     required bool isAngry,
+    required Uint8List? image1,
+    required Uint8List? image2,
   }) = _GameState;
+
   const GameState._();
 }
 
@@ -36,17 +45,6 @@ extension LevelTypeExt on LevelType {
         return '難しい';
       case LevelType.original:
         return 'オリジナル';
-    }
-  }
-
-  List<String> get imagePath {
-    switch (this) {
-      case LevelType.easy:
-        return ['assets/easy_01.png', 'assets/easy_02.png'];
-      case LevelType.hard:
-        return ['assets/hard_01.png', 'assets/hard_02.png'];
-      case LevelType.original:
-        return ['assets/hard_01.png', 'assets/hard_02.png'];
     }
   }
 }
@@ -105,7 +103,7 @@ class Result {
       case LevelType.hard:
         return 1.3;
       case LevelType.original:
-        return 1.5;
+        return 1;
     }
   }
 
