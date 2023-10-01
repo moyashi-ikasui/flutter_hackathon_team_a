@@ -51,6 +51,7 @@ class Game extends AutoDisposeNotifier<GameState> {
     if (tappedPoint == null) {
       wrongAnswerPlayer.play();
       state = state.copyWith(wrongTouchingNum: state.wrongTouchingNum + 1);
+      reduceTimer();
     } else {
       correctAnswerPlayer.play();
       newMap[tappedPoint.key] = true;
