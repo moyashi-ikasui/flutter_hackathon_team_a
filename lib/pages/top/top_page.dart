@@ -47,8 +47,10 @@ class TopPage extends HookConsumerWidget {
                         onPressed: () {
                           ref
                               .read(gameProvider.notifier)
-                              .updateLevelType(LevelType.easy);
-                          Navigator.pushNamed(context, RouteName.game.name);
+                              .updateLevelType(LevelType.easy)
+                              .then((value) {
+                            Navigator.pushNamed(context, RouteName.game.name);
+                          });
                         },
                         child: Text(
                           LevelType.easy.name,
@@ -66,8 +68,10 @@ class TopPage extends HookConsumerWidget {
                         onPressed: () {
                           ref
                               .read(gameProvider.notifier)
-                              .updateLevelType(LevelType.hard);
-                          Navigator.pushNamed(context, RouteName.game.name);
+                              .updateLevelType(LevelType.hard)
+                              .then((value) {
+                            Navigator.pushNamed(context, RouteName.game.name);
+                          });
                         },
                         child: Text(
                           LevelType.hard.name,

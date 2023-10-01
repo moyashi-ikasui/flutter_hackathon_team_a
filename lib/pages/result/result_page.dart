@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hackathon_team_a/features/game.dart';
+import 'package:flutter_hackathon_team_a/features/game_state.dart';
 import 'package:flutter_hackathon_team_a/pages/game/widgets/background.dart';
 import 'package:flutter_hackathon_team_a/router/router.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -12,9 +13,36 @@ class ResultPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(gameProvider);
-    final diffPointsList = useMemoized(() => state.diffPoints.entries.toList());
+    final diffPointsList =
+        useMemoized(() => state.diffPoints.entries.toList(), [
+      state.diffPoints,
+    ]);
     final diffImg = state.image1;
     final defaultImg = state.image2;
+
+    const defaultOriginalSize = 200;
+    const scale = 120 / defaultOriginalSize;
+    const double minimumCircleSize = 20;
+
+    double left(TapPoint tapPoint, LevelType level) {
+      if (level != LevelType.original) {
+        return tapPoint.minX;
+      }
+      final side = tapPoint.horizontalSide > minimumCircleSize
+          ? tapPoint.horizontalSide
+          : minimumCircleSize;
+      return tapPoint.center.dx - (side / 2);
+    }
+
+    double top(TapPoint tapPoint, LevelType level) {
+      if (level != LevelType.original) {
+        return tapPoint.minY;
+      }
+      final side = tapPoint.verticalSide > minimumCircleSize
+          ? tapPoint.verticalSide
+          : minimumCircleSize;
+      return tapPoint.center.dy - (side / 2);
+    }
 
     return Scaffold(
       body: Background(
@@ -50,20 +78,19 @@ class ResultPage extends HookConsumerWidget {
                             ...diffPointsList
                                 .map(
                                   (e) => Positioned(
-                                    left: e.key.minX,
-                                    top: e.key.minY,
+                                    left: left(e.key, state.levelType!) * scale,
+                                    top: top(e.key, state.levelType!) * scale,
                                     child: Container(
-                                      width: 25,
-                                      height: 25,
+                                      width: 25 * scale,
+                                      height: 25 * scale,
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(100),
                                         border: Border.all(
-                                            color: state.diffPoints[e.key]!
-                                                ? Colors.red
-                                                : Colors.transparent,
-                                            width: 5),
+                                          color: Colors.red,
+                                          width: 5,
+                                        ),
                                       ),
                                     ),
                                   ),

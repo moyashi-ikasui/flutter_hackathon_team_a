@@ -5,7 +5,6 @@ import 'package:flutter_hackathon_team_a/pages/game/widgets/partner_words/partne
 import 'package:flutter_hackathon_team_a/pages/game/widgets/submit_button.dart';
 import 'package:flutter_hackathon_team_a/pages/game/widgets/background.dart';
 import 'package:flutter_hackathon_team_a/pages/game/widgets/timer_bar/timer_bar_wrapper.dart';
-import 'package:flutter_hackathon_team_a/util/spacer.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -18,18 +17,27 @@ class GamePage extends HookConsumerWidget {
     final diffImg = state.image1;
     final defaultImg = state.image2;
 
-    final diffPointsList = useMemoized(() => state.diffPoints.entries.toList());
+    final diffPointsList =
+        useMemoized(() => state.diffPoints.entries.toList(), [
+      state.diffPoints,
+    ]);
 
     const double minimumCircleSize = 20;
 
-    double left(TapPoint tapPoint) {
+    double left(TapPoint tapPoint, LevelType level) {
+      if (level != LevelType.original) {
+        return tapPoint.minX;
+      }
       final side = tapPoint.horizontalSide > minimumCircleSize
           ? tapPoint.horizontalSide
           : minimumCircleSize;
       return tapPoint.center.dx - (side / 2);
     }
 
-    double top(TapPoint tapPoint) {
+    double top(TapPoint tapPoint, LevelType level) {
+      if (level != LevelType.original) {
+        return tapPoint.minY;
+      }
       final side = tapPoint.verticalSide > minimumCircleSize
           ? tapPoint.verticalSide
           : minimumCircleSize;
@@ -58,8 +66,8 @@ class GamePage extends HookConsumerWidget {
                     ...diffPointsList
                         .map(
                           (e) => Positioned(
-                            left: left(e.key),
-                            top: top(e.key),
+                            left: left(e.key, state.levelType!),
+                            top: top(e.key, state.levelType!),
                             child: GestureDetector(
                               onTap: () => {
                                 ref
@@ -100,9 +108,9 @@ class GamePage extends HookConsumerWidget {
                 ),
               ],
             ),
-            const HSpacer(height: 8),
+            const Spacer(),
             const SubmitButton(),
-            const HSpacer(height: 8),
+            const Spacer(),
             const TimerBarWrapper(),
           ],
         ),
