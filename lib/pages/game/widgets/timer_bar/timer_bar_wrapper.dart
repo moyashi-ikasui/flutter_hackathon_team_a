@@ -28,11 +28,25 @@ class _TimerBarWrapperState extends ConsumerState<TimerBarWrapper>
   @override
   Widget build(BuildContext context) {
     final gameState = ref.watch(gameProvider);
-    return Center(
-      child: gameState.isAnimationControllerInitialized
-          ? AnimatedTimerBar(
-              animationController: gameState.animationController!)
-          : const Text('準備中...'),
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text(
+          '怒りパラメータ',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            letterSpacing: -3,
+          ),
+        ),
+        const SizedBox(width: 10),
+        Center(
+          child: gameState.isAnimationControllerInitialized
+              ? AnimatedTimerBar(
+                  animationController: gameState.animationController!)
+              : const Text('準備中...'),
+        ),
+      ],
     );
   }
 }
