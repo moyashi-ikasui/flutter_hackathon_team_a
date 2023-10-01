@@ -25,9 +25,9 @@ class TopPage extends HookConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                '彼氏優秀度チェカー',
+                '彼氏力テスト',
                 style: TextStyle(
-                  fontSize: 23,
+                  fontSize: 38,
                   fontWeight: FontWeight.bold,
                 ),
               ),
