@@ -152,7 +152,7 @@ class ResultPage extends HookConsumerWidget {
                             state.result.hasPerfectBonus ? "あり" : "なし",
                             style: const TextStyle(
                               fontSize: 18,
-                              fontWeight: FontWeight.w100,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ],
@@ -171,7 +171,7 @@ class ResultPage extends HookConsumerWidget {
                             state.result.hasLevelBonus ? "あり" : "なし",
                             style: const TextStyle(
                               fontSize: 18,
-                              fontWeight: FontWeight.w100,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ],
@@ -190,7 +190,7 @@ class ResultPage extends HookConsumerWidget {
                             "${state.result.wrongTouchingNum}回",
                             style: const TextStyle(
                               fontSize: 18,
-                              fontWeight: FontWeight.w100,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ],
@@ -209,7 +209,7 @@ class ResultPage extends HookConsumerWidget {
                             "${state.result.remainingTime}秒",
                             style: const TextStyle(
                               fontSize: 18,
-                              fontWeight: FontWeight.w100,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ],
@@ -232,11 +232,11 @@ class ResultPage extends HookConsumerWidget {
                             ),
                           ),
                           Text(
-                            NumberFormat("#,###.0")
+                            NumberFormat("#,###")
                                 .format(state.result.totalScore),
                             style: const TextStyle(
                               fontSize: 18,
-                              fontWeight: FontWeight.w100,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ],
