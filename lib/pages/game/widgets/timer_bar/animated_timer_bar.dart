@@ -23,9 +23,9 @@ class AnimatedTimerBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final buttonWidthMax = context.width * 0.8;
+    final buttonWidthMax = context.width * 0.8 - 200;
     return Stack(
-      alignment: Alignment.center,
+      alignment: Alignment.centerRight,
       children: [
         const TimerBarBase(),
         AnimatedBuilder(
@@ -33,10 +33,9 @@ class AnimatedTimerBar extends StatelessWidget {
           builder: (context, child) {
             return Container(
               width: buttonWidthMax * (1 - animationController.value),
-              height: 16,
+              height: 20,
               decoration: BoxDecoration(
-                color: Colors.greenAccent,
-                borderRadius: BorderRadius.circular(50),
+                color: Colors.grey,
               ),
               child: FittedBox(
                 child: Center(
