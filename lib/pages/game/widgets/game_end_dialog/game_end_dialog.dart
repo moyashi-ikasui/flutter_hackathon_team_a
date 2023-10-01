@@ -12,6 +12,18 @@ class GameEndDialog extends StatelessWidget {
 
   final GameEndType gameEndType;
 
+  Widget _buildMessage() {
+    return Center(
+      child: Text(
+        gameEndType.dialogMessage,
+        style: const TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -22,23 +34,19 @@ class GameEndDialog extends StatelessWidget {
       content: Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          border: Border.all(
-            color: Colors.black,
-            width: 2,
-          ),
           borderRadius: BorderRadius.circular(18),
         ),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(gameEndType.dialogMessage),
-                const HSpacer(height: 35),
-                const ConfirmButton(),
-              ],
-            ),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 30),
+              _buildMessage(),
+              const HSpacer(height: 35),
+              const ConfirmButton(),
+            ],
           ),
         ),
       ),

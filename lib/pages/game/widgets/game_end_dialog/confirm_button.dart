@@ -18,18 +18,17 @@ class ConfirmButton extends ConsumerWidget {
       child: Container(
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-            color: Colors.black,
-            width: 2,
-          ),
-          borderRadius: BorderRadius.circular(18),
+          color: Colors.blueAccent,
+          borderRadius: BorderRadius.circular(30),
         ),
-        child: const Text(
-          '結果を見る',
-          style: TextStyle(
-            color: Colors.blueAccent,
-            fontSize: 30,
+        child: const Padding(
+          padding: EdgeInsets.symmetric(vertical: 5),
+          child: Text(
+            '結果を見る',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+            ),
           ),
         ),
       ),
