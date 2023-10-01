@@ -24,6 +24,7 @@ extension GameStateEx on GameState {
 enum LevelType {
   easy,
   hard,
+  original,
 }
 
 extension LevelTypeExt on LevelType {
@@ -33,6 +34,8 @@ extension LevelTypeExt on LevelType {
         return 'やさしい';
       case LevelType.hard:
         return '難しい';
+      case LevelType.original:
+        return 'オリジナル';
     }
   }
 
@@ -42,25 +45,27 @@ extension LevelTypeExt on LevelType {
         return ['assets/easy_01.png', 'assets/easy_02.png'];
       case LevelType.hard:
         return ['assets/hard_01.png', 'assets/hard_02.png'];
+      case LevelType.original:
+        return ['assets/hard_01.png', 'assets/hard_02.png'];
     }
   }
 }
 
 class TapPoint {
-  final Offset offset;
+  final Offset center;
   final double verticalSide;
   final double horizontalSide;
 
   const TapPoint({
-    required this.offset,
+    required this.center,
     required this.verticalSide,
     required this.horizontalSide,
   });
 
-  double get minX => offset.dx - verticalSide;
-  double get maxX => offset.dx + verticalSide;
-  double get maxY => offset.dy + horizontalSide;
-  double get minY => offset.dy - horizontalSide;
+  double get minX => center.dx - (horizontalSide / 2);
+  double get maxX => center.dx + (horizontalSide / 2);
+  double get maxY => center.dy + (verticalSide / 2);
+  double get minY => center.dy - (verticalSide / 2);
 
   bool isTap(Offset tapPoint) {
     return minX < tapPoint.dx &&
