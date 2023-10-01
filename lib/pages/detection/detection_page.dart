@@ -43,9 +43,9 @@ class DetectionPage extends HookConsumerWidget {
                         width: imageSize,
                         height: imageSize,
                         decoration: BoxDecoration(border: Border.all()),
-                        child: const Column(
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                          children: const [
                             Icon(
                               Icons.image_rounded,
                               size: 30,
@@ -74,9 +74,9 @@ class DetectionPage extends HookConsumerWidget {
                         width: imageSize,
                         height: imageSize,
                         decoration: BoxDecoration(border: Border.all()),
-                        child: const Column(
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                          children: const [
                             Icon(
                               Icons.image_rounded,
                               size: 30,
