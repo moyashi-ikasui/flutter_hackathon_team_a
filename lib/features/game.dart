@@ -94,6 +94,7 @@ class Game extends AutoDisposeNotifier<GameState> {
     });
     state.animationController!.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
+        bgmPlayer.stop();
         showDialog(
           context: state.context!,
           barrierDismissible: false,
