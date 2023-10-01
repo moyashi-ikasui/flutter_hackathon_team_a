@@ -84,7 +84,7 @@ class Game extends AutoDisposeNotifier<GameState> {
   }
 
   void startTimer() {
-    bgmPlayer.play();
+    bgmPlayer.setPlaySpeed(1);
     state.animationController!.forward();
     state.animationController!.addListener(() {
       if (!state.isAngry && state.animationController!.value > 0.8) {
