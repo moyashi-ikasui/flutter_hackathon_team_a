@@ -81,7 +81,7 @@ class PartnerWords extends HookConsumerWidget {
                       speed: const Duration(milliseconds: 250),
                       textStyle: GoogleFonts.zenMaruGothic(
                           fontWeight: FontWeight.bold),
-                      cursor: '💢',
+                      cursor: '',
                     ),
                   ],
                 ),
