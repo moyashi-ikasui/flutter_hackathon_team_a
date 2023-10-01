@@ -154,7 +154,8 @@ class Game extends AutoDisposeNotifier<GameState> {
     bgmPlayer.stop();
     state = state.copyWith(
       result: Result(
-        remainingTime: (state.animationController!.value * gameTimeSec).toInt(),
+        remainingTime: gameTimeSec -
+            (state.animationController!.value * gameTimeSec).toInt(),
         level: state.levelType!,
         correctAnswersNum:
             state.diffPoints.values.where((element) => element).toList().length,
