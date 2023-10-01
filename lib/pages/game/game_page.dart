@@ -53,27 +53,27 @@ class GamePage extends HookConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Stack(
-                  children: [
-                    SizedBox(
-                      width: 200,
-                      height: 200,
-                      child: Image.memory(
-                        diffImg!,
-                        fit: BoxFit.contain,
+                GestureDetector(
+                  onTapDown: (tapDownDetails) {
+                    ref
+                        .read(gameProvider.notifier)
+                        .tapPoint(tapDownDetails.localPosition);
+                  },
+                  child: Stack(
+                    children: [
+                      SizedBox(
+                        width: 200,
+                        height: 200,
+                        child: Image.memory(
+                          diffImg!,
+                          fit: BoxFit.contain,
+                        ),
                       ),
-                    ),
-                    ...diffPointsList
-                        .map(
-                          (e) => Positioned(
-                            left: left(e.key, state.levelType!),
-                            top: top(e.key, state.levelType!),
-                            child: GestureDetector(
-                              onTap: () => {
-                                ref
-                                    .read(gameProvider.notifier)
-                                    .tapPoint(e.key.center)
-                              },
+                      ...diffPointsList
+                          .map(
+                            (e) => Positioned(
+                              left: left(e.key, state.levelType!),
+                              top: top(e.key, state.levelType!),
                               child: Container(
                                 constraints: const BoxConstraints(
                                   minWidth: minimumCircleSize,
@@ -92,10 +92,10 @@ class GamePage extends HookConsumerWidget {
                                 ),
                               ),
                             ),
-                          ),
-                        )
-                        .toList(),
-                  ],
+                          )
+                          .toList(),
+                    ],
+                  ),
                 ),
                 const SizedBox(width: 20),
                 SizedBox(
